@@ -48,9 +48,9 @@ GridLayout {
                         parseFloat(quaternions.itemAt(2).text),
                         parseFloat(quaternions.itemAt(3).text))
 
-            eulerRots.itemAt(0).text = eul[0].toFixed(7);
-            eulerRots.itemAt(1).text = eul[1].toFixed(7);
-            eulerRots.itemAt(2).text = eul[2].toFixed(7);
+            eulerRots.itemAt(2).text = eul[0].toFixed(3);
+            eulerRots.itemAt(1).text = eul[1].toFixed(3);
+            eulerRots.itemAt(0).text = eul[2].toFixed(3);
         }
     }
 
