@@ -31,10 +31,10 @@ GridLayout {
 
         onClicked: {
             q = api.angles2quat(parseFloat(eulerRots.itemAt(0).text), parseFloat(eulerRots.itemAt(1).text), parseFloat(eulerRots.itemAt(2).text));
-            quaternions.itemAt(0).text = q[0].toFixed(7);
-            quaternions.itemAt(1).text = q[1].toFixed(7);
-            quaternions.itemAt(2).text = q[2].toFixed(7);
-            quaternions.itemAt(3).text = q[3].toFixed(7);
+            quaternions.itemAt(0).text = q[0].toFixed(9);
+            quaternions.itemAt(1).text = q[1].toFixed(9);
+            quaternions.itemAt(2).text = q[2].toFixed(9);
+            quaternions.itemAt(3).text = q[3].toFixed(9);
         }
     }
 
