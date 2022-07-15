@@ -30,11 +30,11 @@ GridLayout {
         property var q: []
 
         onClicked: {
-            q = api.angles2quat(parseFloat(eulerRots.itemAt(2).text), parseFloat(eulerRots.itemAt(1).text), parseFloat(eulerRots.itemAt(0).text));
-            quaternions.itemAt(0).text = q[0].toFixed(7);
-            quaternions.itemAt(1).text = q[1].toFixed(7);
-            quaternions.itemAt(2).text = q[2].toFixed(7);
-            quaternions.itemAt(3).text = q[3].toFixed(7);
+            q = api.angles2quat(parseFloat(eulerRots.itemAt(0).text), parseFloat(eulerRots.itemAt(1).text), parseFloat(eulerRots.itemAt(2).text));
+            quaternions.itemAt(0).text = q[0].toFixed(9);
+            quaternions.itemAt(1).text = q[1].toFixed(9);
+            quaternions.itemAt(2).text = q[2].toFixed(9);
+            quaternions.itemAt(3).text = q[3].toFixed(9);
         }
     }
 
@@ -48,9 +48,9 @@ GridLayout {
                         parseFloat(quaternions.itemAt(2).text),
                         parseFloat(quaternions.itemAt(3).text))
 
-            eulerRots.itemAt(0).text = eul[0].toFixed(7);
-            eulerRots.itemAt(1).text = eul[1].toFixed(7);
-            eulerRots.itemAt(2).text = eul[2].toFixed(7);
+            eulerRots.itemAt(2).text = eul[0].toFixed(3);
+            eulerRots.itemAt(1).text = eul[1].toFixed(3);
+            eulerRots.itemAt(0).text = eul[2].toFixed(3);
         }
     }
 
