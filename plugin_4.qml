@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import "qrc:/qml/UIstyle"
+import "qrc:/qml/uiStyle"
 
 ColumnLayout {
     Label {
