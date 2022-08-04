@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import IRBCAM.Api
 import "qrc:/qml/uiStyle"
 
 ColumnLayout {

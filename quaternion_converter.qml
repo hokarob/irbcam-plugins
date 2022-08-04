@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import IRBCAM.Api
 import "qrc:/qml/uiStyle"
 
 GridLayout {
@@ -30,7 +31,7 @@ GridLayout {
         property var q: []
 
         onClicked: {
-            q = api.angles2quat(parseFloat(eulerRots.itemAt(0).text), parseFloat(eulerRots.itemAt(1).text), parseFloat(eulerRots.itemAt(2).text));
+            q = Api.angles2quat(parseFloat(eulerRots.itemAt(0).text), parseFloat(eulerRots.itemAt(1).text), parseFloat(eulerRots.itemAt(2).text));
             quaternions.itemAt(0).text = q[0].toFixed(9);
             quaternions.itemAt(1).text = q[1].toFixed(9);
             quaternions.itemAt(2).text = q[2].toFixed(9);
@@ -42,7 +43,7 @@ GridLayout {
         text: "<"
         property var eul: []
         onClicked: {
-            eul = api.quat2angles(
+            eul = Api.quat2angles(
                         parseFloat(quaternions.itemAt(0).text),
                         parseFloat(quaternions.itemAt(1).text),
                         parseFloat(quaternions.itemAt(2).text),
