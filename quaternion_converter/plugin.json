@@ -1,5 +1,5 @@
 {
-  "name": "Quaternion Converter"
-  "icon": "https://wasm.hokarob.com/plugins/quaternion_converter/icon.svg"
+  "name": "Quaternion Converter",
+  "icon": "https://wasm.hokarob.com/plugins/quaternion_converter/icon.svg",
   "qml": "https://wasm.hokarob.com/plugins/quaternion_converter/quaternion_converter.qml"
 }
