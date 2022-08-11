@@ -1,0 +1,5 @@
+{
+  "name": "Plugin 2",
+  "icon": "https://wasm.hokarob.com/plugins/quaternion_converter/icon.svg",
+  "qml": "https://wasm.hokarob.com/plugins/quaternion_converter/quaternion_converter.qml"
+}
