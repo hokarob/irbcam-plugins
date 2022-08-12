@@ -18,6 +18,74 @@
    xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs2">
+    <marker
+       style="overflow:visible"
+       id="Arrow2Sstart"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow2Sstart"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.3) translate(-2.3,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="stroke:context-stroke;fill-rule:evenodd;fill:context-stroke;stroke-width:0.62500000;stroke-linejoin:round"
+         id="path3544" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow1Sstart"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow1Sstart"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.2) translate(6,0)"
+         style="fill-rule:evenodd;fill:context-stroke;stroke:context-stroke;stroke-width:1.0pt"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path3526" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow1Mstart"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mstart"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.4) translate(10,0)"
+         style="fill-rule:evenodd;fill:context-stroke;stroke:context-stroke;stroke-width:1.0pt"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path3520" />
+    </marker>
+    <marker
+       id="ExperimentalArrow"
+       refX="5.0"
+       refY="3.0"
+       orient="auto-start-reverse"
+       inkscape:stockid="ExperimentalArrow"
+       inkscape:isstock="true">
+      <path
+         style="fill:context-stroke"
+         d="m 10,3 -10,3 0,-6 z"
+         id="path3767" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow2Lstart"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow2Lstart"
+       inkscape:isstock="true">
+      <path
+         transform="scale(1.1) translate(1,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="stroke:context-stroke;fill-rule:evenodd;fill:context-stroke;stroke-width:0.62500000;stroke-linejoin:round"
+         id="path3532" />
+    </marker>
     <inkscape:perspective
        sodipodi:type="inkscape:persp3d"
        inkscape:vp_x="0 : 2.1166667 : 1"
@@ -28,14 +96,14 @@
   </defs>
   <sodipodi:namedview
      id="base"
-     pagecolor="#2f2f2f"
+     pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="11.313709"
-     inkscape:cx="-26.781669"
-     inkscape:cy="5.2149125"
+     inkscape:zoom="32.000001"
+     inkscape:cx="8.5312496"
+     inkscape:cy="8.9374996"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -88,16 +156,15 @@
        d="M -7.1602864,295.95819 Z"
        id="path910"
        inkscape:connector-curvature="0" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:5.18791px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.162122"
-       x="0.42800194"
-       y="296.73541"
-       id="text4480"><tspan
-         sodipodi:role="line"
-         id="tspan4478"
-         style="font-size:5.18791px;stroke-width:0.162122"
-         x="0.42800194"
-         y="296.73541">P</tspan></text>
+    <path
+       id="path932"
+       style="fill:none;stroke:#000000;stroke-width:0.264583;stroke-linecap:round;stroke-miterlimit:1;stroke-dasharray:none;marker-start:url(#Arrow2Sstart)"
+       d="m 0.90111423,293.66778 c 0.31108717,-0.31109 0.74084987,-0.5035 1.21555257,-0.5035 0.9494054,0 1.7190508,0.76964 1.7190518,1.71905 -10e-7,0.94941 -0.7696464,1.71905 -1.7190518,1.71905 -0.9494054,0 -1.71905085,-0.76964 -1.71905184,-1.71905 1.2e-7,-0.11867 0.012026,-0.23454 0.0349253,-0.34645"
+       sodipodi:nodetypes="cscscc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.396935;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 3.0507534,295.81741 0.9099634,0.90995"
+       id="path4837"
+       sodipodi:nodetypes="cc" />
   </g>
 </svg>
