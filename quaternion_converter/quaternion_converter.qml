@@ -60,8 +60,9 @@ GridLayout {
             id: quaternions
             model: ["q1", "q2", "q3", "q4"]
             delegate: componentField
+            Component.onCompleted: Api.angles2quat(0, 0, 0)
         }
-        Component.onCompleted: Api.angles2quat(0, 0, 0)
+        
     }
 
 
