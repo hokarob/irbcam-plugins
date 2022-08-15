@@ -5,8 +5,18 @@ import IRBCAM.Api
 import "qrc:/qml/uiStyle"
 
 GridLayout {
+    id: root
     columns: 4
     columnSpacing: 20
+	Component.onCompleted: root.angles2quat()
+
+    function angles2quat() {
+            q = Api.angles2quat(parseFloat(eulerRots.itemAt(0).text), parseFloat(eulerRots.itemAt(1).text), parseFloat(eulerRots.itemAt(2).text));
+            quaternions.itemAt(0).text = q[0].toFixed(9);
+            quaternions.itemAt(1).text = q[1].toFixed(9);
+            quaternions.itemAt(2).text = q[2].toFixed(9);
+            quaternions.itemAt(3).text = q[3].toFixed(9);
+    }
 
     Label {
         Layout.columnSpan: 4
@@ -31,11 +41,7 @@ GridLayout {
         property var q: []
 
         onClicked: {
-            q = Api.angles2quat(parseFloat(eulerRots.itemAt(0).text), parseFloat(eulerRots.itemAt(1).text), parseFloat(eulerRots.itemAt(2).text));
-            quaternions.itemAt(0).text = q[0].toFixed(9);
-            quaternions.itemAt(1).text = q[1].toFixed(9);
-            quaternions.itemAt(2).text = q[2].toFixed(9);
-            quaternions.itemAt(3).text = q[3].toFixed(9);
+            root.angles2quat()
         }
     }
 
@@ -60,7 +66,6 @@ GridLayout {
             id: quaternions
             model: ["q1", "q2", "q3", "q4"]
             delegate: componentField
-            Component.onCompleted: Api.angles2quat(0, 0, 0)
         }
         
     }
