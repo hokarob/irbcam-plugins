@@ -8,8 +8,6 @@ GridLayout {
     columns: 4
     columnSpacing: 20
 
-    Component.onCompleted: Api.angles2quat(0, 0, 0)
-
     Label {
         Layout.columnSpan: 4
         Layout.bottomMargin: 30
@@ -63,6 +61,7 @@ GridLayout {
             model: ["q1", "q2", "q3", "q4"]
             delegate: componentField
         }
+        Component.onCompleted: Api.angles2quat(0, 0, 0)
     }
 
 
