@@ -5,10 +5,9 @@ import IRBCAM.Api
 import "qrc:/qml/uiStyle"
 
 GridLayout {
-    id: root
     columns: 4
     columnSpacing: 20
-	Component.onCompleted: root.angles2quat()
+	Component.onCompleted: angles2quat()
 
     function angles2quat() {
             var q = Api.angles2quat(parseFloat(eulerRots.itemAt(0).text), parseFloat(eulerRots.itemAt(1).text), parseFloat(eulerRots.itemAt(2).text));
@@ -40,7 +39,7 @@ GridLayout {
         text: ">"
 
         onClicked: {
-            root.angles2quat()
+            angles2quat()
         }
     }
 
