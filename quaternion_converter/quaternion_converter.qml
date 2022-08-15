@@ -11,7 +11,7 @@ GridLayout {
 	Component.onCompleted: root.angles2quat()
 
     function angles2quat() {
-            q = Api.angles2quat(parseFloat(eulerRots.itemAt(0).text), parseFloat(eulerRots.itemAt(1).text), parseFloat(eulerRots.itemAt(2).text));
+            var q = Api.angles2quat(parseFloat(eulerRots.itemAt(0).text), parseFloat(eulerRots.itemAt(1).text), parseFloat(eulerRots.itemAt(2).text));
             quaternions.itemAt(0).text = q[0].toFixed(9);
             quaternions.itemAt(1).text = q[1].toFixed(9);
             quaternions.itemAt(2).text = q[2].toFixed(9);
@@ -38,7 +38,6 @@ GridLayout {
 
     Button {
         text: ">"
-        property var q: []
 
         onClicked: {
             root.angles2quat()
