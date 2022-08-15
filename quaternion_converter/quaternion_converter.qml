@@ -8,6 +8,8 @@ GridLayout {
     columns: 4
     columnSpacing: 20
 
+    Component.onCompleted: Api.angles2quat(0, 0, 0)
+
     Label {
         Layout.columnSpan: 4
         Layout.bottomMargin: 30
