@@ -49,4 +49,4 @@ All official plugins in this repository are licensed under the MIT license. Plea
 
 IRBCAM and these official plugins are trademarks of [Hokarob AS](https://hokarob.com).
 
-Happy plugin development! If you have any questions or need assistance, don't hesitate to reach out to us via [contact information].
+Happy plugin development! If you have any questions or need assistance, don't hesitate to reach out to us via support[at]irbcam.com.
