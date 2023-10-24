@@ -1,12 +1,12 @@
-# Contributing to IRBCAM plugins
+# Contributing to official IRBCAM plugins
 
-Thank you for your interest in contributing to IRBCAM plugins. We welcome contributions from the community to help make our project better. Whether you're a developer, designer, tester, or simply a user with feedback, we appreciate your involvement.
+Thank you for your interest in contributing to official IRBCAM plugins. We welcome contributions from the community to help make our project better. Whether you're a developer, designer, tester, or simply a user with feedback, we appreciate your involvement.
 
 Before you start contributing, please take a moment to review this document to understand how you can effectively participate in our project.
 
 ## Ways to Contribute
 
-There are many ways to contribute to IRBCAM plugins, including but not limited to:
+There are many ways to contribute to official IRBCAM plugins, including but not limited to:
 
 - Reporting Issues: If you come across a bug, have a feature request, or find a problem with the project, please [submit an issue](https://github.com/hokarob/irbcam-plugins/issues). Make sure to check if a similar issue already exists.
 
@@ -42,4 +42,4 @@ All contributions will be reviewed by project maintainers. We may provide feedba
 
 By contributing to this project, you agree that your contributions will be licensed under the same license as the project itself. For more details, please see our [LICENSE](LICENSE.md) file.
 
-We appreciate your interest and your willingness to contribute to IRBCAM plugins.
+We appreciate your interest and your willingness to contribute to official IRBCAM plugins.
