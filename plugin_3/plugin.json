@@ -1,5 +1,0 @@
-{
-  "name": "Plugin 3",
-  "icon": "http://wasm.hokarob.com/wasm/irbcam_plugins/plugin_3/icon.svg",
-  "qml": "http://wasm.hokarob.com/wasm/irbcam_plugins/plugin_3/plugin_3.qml"
-}

@@ -1,5 +1,0 @@
-{
-  "name": "Quaternion Converter",
-  "icon": "http://wasm.hokarob.com/wasm/irbcam_plugins/quaternion_converter/icon.svg",
-  "qml": "http://wasm.hokarob.com/wasm/irbcam_plugins/quaternion_converter/quaternion_converter.qml"
-}
