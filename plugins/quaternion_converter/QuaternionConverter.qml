@@ -17,7 +17,7 @@ import IRBCAM.InterfacePublic
 
 /*
     Plugins are loaded within a QML popup. Pack your content into a single component to get proper sizing. 
-    See [Popup Sizing](https://doc.qt.io/qt-6/qml-qtquick-controls-popup.html#popup-sizing) 
+    See https://doc.qt.io/qt-6/qml-qtquick-controls-popup.html#popup-sizing
 */
 GridLayout {
     id: root
