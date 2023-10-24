@@ -1,14 +1,24 @@
+/*
+    Write a nice description of the plugin here. Explain a bit about what it demonstrates or why it is relevant as an example
+*/
+
 import QtQuick
 import QtCharts
 import QtQuick.Controls
 import QtQuick.Layouts
 
+// Import IRBCAM theme
 import IrbcamQml.Theme
 import IrbcamQml.UiStyle
 
+// Import IRBCAM public interface
 import IRBCAM.InterfacePublic
 
 
+/*
+    Plugins are loaded within a QML popup. Pack your content into a single component to get proper sizing. 
+    See https://doc.qt.io/qt-6/qml-qtquick-controls-popup.html#popup-sizing
+*/
 ColumnLayout {
     id: root
 
@@ -434,7 +444,7 @@ ColumnLayout {
         return dist;
 
     }
-
+    
 }
 
 
