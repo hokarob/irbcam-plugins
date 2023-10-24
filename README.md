@@ -16,6 +16,15 @@ To get started with plugin development for IRBCAM, you will need to have a basic
 <!-- - Official Documentation - Our documentation provides in-depth information about developing plugins for IRBCAM. -->
 - [Forum](https://forum.hokarob.com/) - Join our developer community to ask questions, share your experiences, and collaborate with others.
 
+## Available Official Plugins
+
+We have created the following official plugins to demonstrate best practices and provide useful extensions for IRBCAM. You can find each plugin in its respective directory within this repository:
+
+1. **Statistics** A plugin to show statistics for the currently loaded path.
+2. **Quaternion Converter** A plugin to convert between Tait-Bryan and Quaternions.
+
+Feel free to explore these plugins to understand how they work and use them as references for your own development.
+
 ## Plugin Development Guidelines
 
 Before creating your own plugins, it's essential to follow our best practices and guidelines to ensure that your plugins are of high quality and compatible with IRBCAM. Here are some key principles to consider:
@@ -25,19 +34,25 @@ Before creating your own plugins, it's essential to follow our best practices an
 - **Compatibility**: Ensure your plugins are compatible with the latest versions of IRBCAM.
 - **Documentation**: Document your code, including usage instructions and examples, for better usability.
 
-## Available Official Plugins
+## Packing Your Plugin
+IRBCAM expects plugins to be a single file. If your plugin is a single QML-file, IRBCAM can load it directly. If your plugin consists of multiple files (such as external JS-files), you will need to add the files to a ZIP archive.
 
-We have created the following official plugins to demonstrate best practices and provide useful extensions for IRBCAM. You can find each plugin in its respective directory within this repository:
+### File Structure
+Your archive should include:
+- A single QML file
+- A single SVG/PNG icon (optional)
+- Other resources (not QML or SVG/PNG)
 
-1. Plugin Name 1
-    - Description: A brief description of what the plugin does.
-    - Documentation: Link to Plugin Documentation
+You may add more QML or SVG/PNG files to a subdirectory. Example:
 
-<!-- 2. Plugin Name 2
-    - Description: A brief description of what the plugin does.
-    - Documentation: Link to Plugin Documentation -->
-
-Feel free to explore these plugins to understand how they work and use them as references for your own development.
+```bash
+plugin.zip/
+├── MyPlugin.qml
+├── Icon.svg
+└── resources
+    ├── AnotherQmlFile.qml
+    └── MyFunctions.js
+```
 
 ## Contributing
 
