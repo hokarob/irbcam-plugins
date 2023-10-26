@@ -287,7 +287,7 @@ ColumnLayout {
 
             Label {
                 id: slow
-                text: root.countMoveC + root.countMoveL - root.countFastMove
+                text: (root.countMoveC) + (((root.countMoveL - 1) > 0) ? (root.countMoveL - 1) :  0) - (((root.countFastMove - 1) > 0) ? (root.countFastMove - 1) :  0)
                 Layout.alignment: Qt.AlignRight
                 horizontalAlignment: Text.AlignRight
             }
