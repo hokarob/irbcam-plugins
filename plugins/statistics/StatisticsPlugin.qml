@@ -250,7 +250,7 @@ ColumnLayout {
 
             Label {
                 id: moveL
-                text: root.countMoveL > 1 ? (root.countMoveL - 1) : (root.countMoveL)
+                text: ((root.countMoveL - 1) > 0) ? (root.countMoveL - 1) :  0
                 Layout.alignment: Qt.AlignRight
                 horizontalAlignment: Text.AlignRight
                 Layout.preferredWidth: 50
@@ -275,7 +275,7 @@ ColumnLayout {
 
             Label {
                 id: fast
-                text: (root.countFastMove)
+                text: ((root.countFastMove - 1) > 0) ? (root.countFastMove - 1) :  0
                 Layout.alignment: Qt.AlignRight
                 horizontalAlignment: Text.AlignRight
             }
@@ -287,7 +287,7 @@ ColumnLayout {
 
             Label {
                 id: slow
-                text: (root.countMoveL > 1 ? (root.countMoveC + (root.countMoveL-1) - root.countFastMove) : (root.countMoveC + (root.countMoveL) - root.countFastMove))
+                text: root.countMoveC + root.countMoveL - root.countFastMove
                 Layout.alignment: Qt.AlignRight
                 horizontalAlignment: Text.AlignRight
             }
@@ -316,13 +316,11 @@ ColumnLayout {
         }
     }
 
-
     Component.onCompleted: loopOverPose()
-
 
     function loopOverPose() {
 
-        let cartesianPath = IrbcamInterfacePublic.getCartesianPath();
+        let cartesianPath = IrbcamInterfacePublic.cartesianPath;
         let cartesianPose = cartesianPath.targets;
         let indexArr= cartesianPath.velocity.i;
         let valueArr = cartesianPath.velocity.value;
@@ -344,46 +342,37 @@ ColumnLayout {
         let velocity = 0.0; // mm/s
         let fastMove = false;
 
-        for(var i = 0; i < totalPose; i++ ){
+        for(var i = 0; i < totalPose; i++ ) {
             if(cartesianPose.type[i] === 0) {
                 countMoveL += 1; // substract 1 from the final count during display
             } else {
                 countMoveC += 2; // two moveC commands for each arcMidPoint
                 countMoveL -= 1;
-
             }
-
-
             if(i === indexArr[tmpIndex]) {
                 velocity = valueArr[tmpIndex]
                 if(velocity === -1) { // if fast speed then use the max speed of the valueArr
-                    velocity = Math.max.apply(null, valueArr);
+                    velocity = isFinite(Math.max.apply(null, valueArr)) ? Math.max.apply(null, valueArr) : 0;
                     fastMove = true;
                 }
                 else {
                     fastMove = false;
                 }
-
                 tmpIndex += 1;
             }
-
             if(fastMove) {
                 countFastMove += 1;
             }
-
-
             if (i < (totalPose-1)) {
                 let dis = calcDistance( Qt.vector3d(cartesianPose.pX[i],cartesianPose.pY[i],cartesianPose.pZ[i]), Qt.vector3d(cartesianPose.pX[i+1],cartesianPose.pY[i+1],cartesianPose.pZ[i+1]));
                 pathLength += dis;
-                estimatedTime += dis/velocity;
-
+                if(velocity > 0.0001) { // velocity should be more than threshold = 0.0001 mm/s
+                    estimatedTime += dis/velocity;
+                }
                 if((cartesianPose.type[i] === 0) && (cartesianPose.type[i+1] === 0)){
                     if(dis > maxMoveL) maxMoveL = dis;
                     if(dis < minMoveL) minMoveL= dis;
                 }
-
-
-
                 switch (true) {
                 case dis <= 1.0:
                     countVec[0] += 1;
@@ -408,11 +397,8 @@ ColumnLayout {
                     break;
                 default:
                 }
-
             }
-
         }
-
         root.countMoveL = countMoveL;
         root.countMoveC = countMoveC;
         root.pathLength = pathLength;
@@ -421,12 +407,6 @@ ColumnLayout {
         root.minMoveL = isFinite(minMoveL) ? minMoveL : 0.0;
         root.maxMoveL = isFinite(maxMoveL) ? maxMoveL : 0.0;
         root.countFastMove = countFastMove;
-//        root.minX = Math.min.apply(null, cartesianPose.pX);
-//        root.maxX = Math.max.apply(null, cartesianPose.pX);
-//        root.minY = Math.min.apply(null, cartesianPose.pY);
-//        root.maxY = Math.max.apply(null, cartesianPose.pY);
-//        root.minZ = Math.min.apply(null, cartesianPose.pZ);
-//        root.maxZ = Math.max.apply(null, cartesianPose.pZ);
 
         root.minX = isFinite(Math.min.apply(null, cartesianPose.pX)) ? Math.min.apply(null, cartesianPose.pX) : 0;
         root.maxX = isFinite(Math.max.apply(null, cartesianPose.pX)) ? Math.max.apply(null, cartesianPose.pX) : 0;
@@ -434,17 +414,13 @@ ColumnLayout {
         root.maxY = isFinite(Math.max.apply(null, cartesianPose.pY)) ? Math.max.apply(null, cartesianPose.pY) : 0;
         root.minZ = isFinite(Math.min.apply(null, cartesianPose.pZ)) ? Math.min.apply(null, cartesianPose.pZ) : 0;
         root.maxZ = isFinite(Math.max.apply(null, cartesianPose.pZ)) ? Math.max.apply(null, cartesianPose.pZ) : 0;
-
-
-
     }
 
-    function calcDistance(start, end){
+    // calculate distance between two 3D vectors
+    function calcDistance(start, end) {
         var dist = Math.sqrt((end.x - start.x) ** 2 + (end.y - start.y) ** 2 + (end.z - start.z) ** 2);
         return dist;
-
-    }
-    
+    }    
 }
 
 
