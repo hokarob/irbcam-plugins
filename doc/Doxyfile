@@ -6,7 +6,7 @@ XML_PROGRAMLISTING = NO
 # Project Stuff
 PROJECT_NAME           = "IRBCAM plugins"
 PROJECT_BRIEF          = "Developer reference for IRBCAM plugins"
-OUTPUT_DIRECTORY       = "../temp/docs"
+OUTPUT_DIRECTORY       = "../temp"
 
 # Inputs
 INPUT                  = static ../interface
