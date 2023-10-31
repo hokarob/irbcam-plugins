@@ -21,4 +21,4 @@ jobs:
         run: cd doc && doxygen
 
       - name: Move pages
-        run: mkdir -p docs && mv temp/html docs/ && tree .
+        run: mkdir -p docs && mv temp/html/ docs/ && tree .
