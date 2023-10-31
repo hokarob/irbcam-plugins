@@ -19,3 +19,6 @@ jobs:
 
       - name: Generate Doxygen Documentation
         run: cd doc && doxygen
+
+      - name: Move pages
+        run: pwd
