@@ -1,24 +1,22 @@
-# Contributing to official IRBCAM plugins
+# Contribution Guidelines
 
-Thank you for your interest in contributing to official IRBCAM plugins. We welcome contributions from the community to help make our project better. Whether you're a developer, designer, tester, or simply a user with feedback, we appreciate your involvement.
+Thank you for your interest in contributing to official IRBCAM plugins and/or documentation. We welcome contributions from the community to help make our project better. Whether you're a developer, designer, tester, or simply a user with feedback, we appreciate your involvement.
 
 Before you start contributing, please take a moment to review this document to understand how you can effectively participate in our project.
 
 ## Ways to Contribute
 
-There are many ways to contribute to official IRBCAM plugins, including but not limited to:
+There are many ways to contribute to official IRBCAM plugins and documentation, including but not limited to:
 
 - Reporting Issues: If you come across a bug, have a feature request, or find a problem with the project, please [submit an issue](https://github.com/hokarob/irbcam-plugins/issues). Make sure to check if a similar issue already exists.
 
 - Writing Code: If you're a developer, you can help improve the project by working on issues, adding new features, or optimizing the codebase.
 
-- Documentation: Help improve the project's documentation, including README files, code comments, and guides.
-
-<!-- - Testing: If you have the expertise, help us test the project, report bugs, and ensure its reliability. -->
+- Documentation: Help improve the project's documentation, including GitHub pages, README files, code comments, and guides.
 
 - Design and User Experience: Designers can contribute by enhancing the user interface and user experience of the project.
 
-- Community Engagement: Assist in responding to issues, helping users in the community, and participating in discussions.
+- Community Engagement: Assist in responding to issues, helping users in the community, and participating in discussions in [our forum](https://forum.hokarob.com/) or on GitHub.
 
 ## Getting Started
 
@@ -42,4 +40,4 @@ All contributions will be reviewed by project maintainers. We may provide feedba
 
 By contributing to this project, you agree that your contributions will be licensed under the same license as the project itself. For more details, please see our [LICENSE](LICENSE.md) file.
 
-We appreciate your interest and your willingness to contribute to official IRBCAM plugins.
+We appreciate your interest and your willingness to contribute to the official IRBCAM plugins.

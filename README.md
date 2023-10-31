@@ -1,20 +1,12 @@
 # Official Plugins for IRBCAM
 
-Welcome to the official plugin repository for IRBCAM. This repository contains a collection of officially supported plugins that extend the functionality of IRBCAM. These plugins serve as examples for external plugin developers and demonstrate how to create high-quality, efficient, and secure extensions for the platform.
+Welcome to the official plugin repository for IRBCAM. This repository contains a collection of officially supported plugins that extend the functionality of IRBCAM. These plugins serve as examples for external plugin developers and demonstrate how to extend the functionality of IRBCAM.
 Table of Contents
 
-- [Getting Started](#getting-started)
-- [Plugin Development Guidelines](#plugin-development-guidelines)
-- [Available Official Plugins](#available-official-plugins)
-- [Contributing](#contributing)
-- [License](#license)
 
-## Getting Started
+## Developing Your Own Plugins
 
-To get started with plugin development for IRBCAM, you will need to have a basic understanding of [QML](https://doc.qt.io/qt-6/qmlapplications.html) and JavaScript. If you're new to IRBCAM plugin development, we recommend starting with the following resources:
-
-<!-- - Official Documentation - Our documentation provides in-depth information about developing plugins for IRBCAM. -->
-- [Forum](https://forum.hokarob.com/) - Join our developer community to ask questions, share your experiences, and collaborate with others.
+If you want to develop you own plugins for IRBCAM, we recommend taking a look at our [documentation](https://hokarob.github.io/irbcam-plugins) for developers.
 
 ## Available Official Plugins
 
@@ -25,15 +17,15 @@ We have created the following official plugins to demonstrate best practices and
 
 Feel free to explore these plugins to understand how they work and use them as references for your own development.
 
-## Plugin Development Guidelines
+<!-- ## Plugin Development Guidelines
 
 Before creating your own plugins, it's essential to follow our best practices and guidelines to ensure that your plugins are of high quality and compatible with IRBCAM. Here are some key principles to consider:
 
 - **Security**: Always follow security best practices to prevent vulnerabilities and protect user data.
 - **Performance**: Optimize your code for efficiency to ensure that your plugins don't slow down the application.
 - **Compatibility**: Ensure your plugins are compatible with the latest versions of IRBCAM.
-- **Documentation**: Document your code, including usage instructions and examples, for better usability.
-
+- **Documentation**: Document your code, including usage instructions and examples, for better usability. -->
+<!-- 
 ## Packing Your Plugin
 IRBCAM expects plugins to be a single file. If your plugin is a single QML-file, IRBCAM can load it directly. If your plugin consists of multiple files (such as external JS-files), you will need to add the files to a ZIP archive.
 
@@ -52,7 +44,7 @@ plugin.zip/
 └── resources
     ├── AnotherQmlFile.qml
     └── MyFunctions.js
-```
+``` -->
 
 ## Contributing
 
@@ -63,5 +55,3 @@ We welcome contributions from the community to improve these official plugins an
 All official plugins in this repository are licensed under the MIT license. Please review the LICENSE file for details.
 
 IRBCAM and these official plugins are trademarks of [Hokarob AS](https://hokarob.com).
-
-Happy plugin development! If you have any questions or need assistance, don't hesitate to reach out to us via support[at]irbcam.com.
