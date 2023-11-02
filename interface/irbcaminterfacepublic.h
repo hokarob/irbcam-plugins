@@ -6,7 +6,7 @@
 
 /**
  * @class IrbcamInterfacePublic
- * @brief Public Interface for Extending IRBCAM using QML Plugins
+ * @brief Public Interface for Extending IRBCAM using QML Plugins.
  *
  * The `IrbcamInterfacePublic` class serves as the public interface for extending IRBCAM with custom plugins. This interface allows plugin developers to access and interact with the core functionality of IRBCAM through QML, making it easier to create feature-rich and customizable extensions.
  * 
@@ -42,8 +42,8 @@ class IrbcamInterfacePublic : public QObject
      * @note This property is constant and can only be read.
      */
     Q_PROPERTY(QJsonObject settings READ getSettings CONSTANT)
-/**
- * @brief Access the Cartesian path in the station.
+    /**
+     * @brief Access the Cartesian path in the station.
  *
  * This property provides access to the Cartesian path of the robot's motion. The Cartesian path
  * is represented as a JSON object with various components, including 'spindle', 'targets', 'tool',
@@ -85,8 +85,8 @@ class IrbcamInterfacePublic : public QObject
  * @note This property is read-only and cannot be modified directly.
  *
  * @see cartesianPathChanged() Signal that is emitted when the Cartesian path changes.
- */
-Q_PROPERTY(QJsonObject cartesianPath READ getCartesianPath NOTIFY cartesianPathChanged)
+     */
+    Q_PROPERTY(QJsonObject cartesianPath READ getCartesianPath NOTIFY cartesianPathChanged)
 
     /**
      * @brief Q_PROPERTY for accessing the main window's geometry as a QRect.
@@ -99,7 +99,65 @@ Q_PROPERTY(QJsonObject cartesianPath READ getCartesianPath NOTIFY cartesianPathC
 
 
 public:
+    /**
+     * @brief Constructs an IrbcamInterfacePublic instance.
+     *
+     * This explicit constructor creates an IrbcamInterfacePublic object with the given parent.
+     * The IrbcamInterfacePublic class serves as a bridge between the Irbcam and plugins.
+     *
+     * @param parent The parent object to which this IrbcamInterfacePublic instance belongs.
+     *               It defaults to nullptr if no parent is specified.
+     */
+    explicit IrbcamInterfacePublic(QObject *parent = nullptr);
+    /**
+     * @brief Destroys the IrbcamInterfacePublic instance.
+     *
+     * This virtual destructor is responsible for cleaning up resources associated with the IrbcamInterfacePublic object.
+     * It ensures proper cleanup and deallocation of any dynamically allocated resources used by the instance.
+     *
+     * @note Subclasses should override this destructor if they need to perform additional cleanup operations.
+     * @see IrbcamInterfacePublic
+     */
     virtual ~IrbcamInterfacePublic();
+
+    /**
+     * @brief Registers the QML context for interaction with the IrbcamInterfacePublic singleton instance.
+     *
+     * This function registers the IrbcamInterfacePublic singleton instance as a QML context, enabling
+     * seamless communication between QML components and the underlying C++ interface. QML components can
+     * access properties and functions of the IrbcamInterfacePublic singleton instance once it is registered.
+     *
+     * @param instance Reference to the IrbcamInterfacePublic singleton instance to be exposed to the QML context.
+     *
+     * @note Call this function during application initialization to enable communication between QML and the
+     *      IrbcamInterfacePublic singleton instance. After registration, QML components can interact with the
+     *      IrbcamInterfacePublic instance using its properties and functions.
+     *
+     * Example usage in QML:
+     * @code{qml}
+     * // Accessing a property exposed by the IrbcamInterfacePublic singleton instance in QML:
+     * var propertyValue = IrbcamInterfacePublic.propertyName
+     *
+     * // Calling a function exposed by the IrbcamInterfacePublic singleton instance in QML:
+     * IrbcamInterfacePublic.functionName()
+     * @endcode
+     *
+     * @see IrbcamInterfacePublic
+     * @see qmlRegisterSingletonInstance()
+     */
+    /**
+     * @brief Initializes the plugin application with the specified Irbcam interface and GUI application.
+     *
+     * This function initializes the plugin application with the provided Irbcam interface and GUI application instance.
+     * It sets up necessary configurations and resources required for the plugin application to function properly.
+     *
+     * @param irbcamInterface Reference to the Irbcam interface that the application will use.
+     * @param app Pointer to the QGuiApplication instance used for GUI-related functionalities.
+     *
+     * @note This function must be called before any other operations are performed in the application.
+     *
+     * @see IrbcamInterface
+     */
 
 
     /**
@@ -181,7 +239,3 @@ signals:
      */
     void cartesianPathChanged();
 
-
-};
-
-#endif // IRBCAMINTERFACEPUBLIC_H
