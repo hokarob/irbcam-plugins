@@ -4,6 +4,7 @@
 #include <QObject>
 #include "irbcaminterface.h"
 
+
 /**
  * @class IrbcamInterfacePublic
  * @brief Public Interface for Extending IRBCAM using QML Plugins.
