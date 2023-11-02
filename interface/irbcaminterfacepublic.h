@@ -240,3 +240,6 @@ signals:
      */
     void cartesianPathChanged();
 
+};
+
+#endif // IRBCAMINTERFACEPUBLIC_H
