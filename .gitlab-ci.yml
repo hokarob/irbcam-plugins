@@ -1,0 +1,41 @@
+stages:
+  - check
+
+# Arrays are comma separated
+variables:
+  ARCHIVES: "plugins/archives/statistics.zip,plugins/archives/quaternion_converter.zip"
+  DIRECTORIES: "plugins/statistics/,plugins/quaternion_converter/"
+
+check_archives:
+  stage: check
+  script:
+    - echo "Checking if plugin archives are up-to-date"
+    - |
+      IFS=',' read -ra ARCHIVES_ARRAY <<< "$ARCHIVES"
+      IFS=',' read -ra DIRECTORIES_ARRAY <<< "$DIRECTORIES"
+
+      # Loop through the arrays to check each archive and directory pair
+      for i in "${!ARCHIVES_ARRAY[@]}"; do
+        archive="${ARCHIVES_ARRAY[$i]}"
+        directory="${DIRECTORIES_ARRAY[$i]}"
+
+        # Print message to STDOUT
+        echo "Checking $archive"
+
+        # Check if the archive is more recent than the most recent file in the directory
+        if [ ! -f "$archive" ] || [ ! -d "$directory" ]; then
+          echo "Error: $archive or $directory does not exist."
+          exit 1
+        fi
+
+        # Find the most recently modified file in the directory
+        most_recent_file="$(find "$directory" -type f -exec stat -c "%Y %n" {} \; | sort -n | tail -n 1 | awk '{print $2}')"
+
+        # Compare the archive's timestamp with the most recent file's timestamp
+        if [ "$archive" -ot "$most_recent_file" ]; then
+          echo "Error: $archive is not more recent than the most recent file in $directory. Update the archive."
+          exit 1
+        fi
+      done
+  only:
+    - merge_requests
