@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include "irbcaminterface.h"
-
+#include <QMatrix4x4>
 
 /**
  * @class IrbcamInterfacePublic
@@ -163,6 +163,28 @@ public:
      * @return The equivalent angle in degrees.
      */
     Q_INVOKABLE double radToDeg(double val);
+    /**
+     * @brief Converts transformation matrix to a quaternion
+     * @param mat The 4x4 transformation matrix
+     * @return The resulting quaternion representing the transformation matrix.
+     */
+    Q_INVOKABLE QQuaternion matrixToQuaternion(QMatrix4x4 mat);
+    /**
+     * @brief Converts quaternion to transformation matrix
+     * @param quat quaternion
+     * @return The resulting transformation matrix representing the quaternion.
+     */
+    Q_INVOKABLE QMatrix4x4 quaternionToMatrix(QQuaternion quat);
+    /**
+     * @brief Converts quaternion to Roll Pitch Yaw (RPY) angles.
+     * @param quat The input quaternion to be converted to RPY.
+     * @return The resulting RPY angles in radians.
+    */
+    Q_INVOKABLE QVector3D quaternionToRpy(QQuaternion quat);
+
+
+
+
 
 
 public slots:
