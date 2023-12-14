@@ -3,8 +3,8 @@ stages:
 
 # Arrays are comma separated
 variables:
-  ARCHIVES: "plugins/archives/statistics.zip,plugins/archives/quaternion_converter.zip"
-  DIRECTORIES: "plugins/statistics/,plugins/quaternion_converter/"
+  ARCHIVES: "plugins/archives/statistics.zip,plugins/archives/quaternion_converter.zip,plugins/archives/tool_data_converter.zip"
+  DIRECTORIES: "plugins/statistics/,plugins/quaternion_converter/,plugins/tool_data_converter"
 
 check_archives:
   stage: check
