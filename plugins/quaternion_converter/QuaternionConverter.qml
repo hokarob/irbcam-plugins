@@ -1,24 +1,6 @@
 /*
-    Motoman and Fanuc have different definitions of the tool frame compared to ABB and KUKA.
-    For Motoman and Fanuc robots, the tool frame is rotated 180 degrees about the Z axis compared to ABB and KUKA.
-    IRBCAM has chosen to use the same tool frame definition as ABB and KUKA.
-    Hence, this plugin (tool data/frame converter) can be used when Motoman and Fabuc robot users want to transfer tooldata from their teach pendants to the IRBCAM app.
-
-    IRBCAM: ZYX Euler Angles (with respect to moving frame, the sequence of rotation is RZ, RY, RX).
-    X - Translation along X-axis
-    Y - Translation along Y-axis
-    Z - Translation along Z-axis
-    RX - Rotation around X-axis of the moving frame
-    RY - Rotation aroung Y-axis of the moving frame
-    RZ - Rotation around Z-axis of the moving frame
-
-    MOTOMAN/FANUC: RPY (with respect to fixed frame)
-    X - Translation along X-axis
-    Y - Translation along Y-axis
-    Z - Translation along Z-axis
-    R - Roll (Rotation around X-axis of the fixed frame)
-    P - Pitch (Rotation around Y-axis of the fixed frame)
-    Y - Yaw (Rotation around Z-axis of the fixed frame)
+    This is a simple example plugin to get started.
+    It uses functions eulerToQuaternion and quaternionToEuler from IRBCAM public interface to convert between Tait-Bryan angles and Quaterion.
 */
 
 import QtQuick
@@ -33,8 +15,6 @@ import IrbcamQml.UiStyle
 // Import IRBCAM public interface
 import IRBCAM.InterfacePublic
 
-import "./resources/transformations.js" as Transform
-
 /*
     Plugins are loaded within a QML popup. Pack your content into a single component to get proper sizing.
     See https://doc.qt.io/qt-6/qml-qtquick-controls-popup.html#popup-sizing
@@ -42,17 +22,16 @@ import "./resources/transformations.js" as Transform
 GridLayout {
     id: root
     columns: 4
-    columnSpacing: 20
+    columnSpacing: 20    
     layoutDirection: Qt.LeftToRight
     flow: GridView.FlowLeftToRight
-
-    property int precision: 4
+    Component.onCompleted: angles2quat()
 
 
     component MyComponent : RowLayout {
-//        property alias text: tf.text
         property alias value: tf.value
         property string labelText
+        property alias precision: tf.precision
         Label {
             text: labelText
             Layout.rightMargin: 7  // Spacing between label and text field
@@ -61,9 +40,10 @@ GridLayout {
         TextField {
             id: tf
             property double value: 0.0
-            text: value.toFixed(root.precision)
+            property int precision: 7
+            text: value.toFixed(precision)
             validator: DoubleValidator {
-                decimals: root.precision
+                decimals: precision
                 locale: "en_us"
             }
             onActiveFocusChanged: {
@@ -80,43 +60,47 @@ GridLayout {
         }
     }
 
+    // Convert Tait-bryan angles to Quaternion using rotation sequence from cbSequence. Updates values stored in repeater "quaternions"
+    function angles2quat() {
+        var quat = IrbcamInterfacePublic.eulerToQuaternion(IrbcamInterfacePublic.degToRad(eulerRx.value),
+                                                           IrbcamInterfacePublic.degToRad(eulerRy.value),
+                                                           IrbcamInterfacePublic.degToRad(eulerRz.value),
+                                                           cbSequence.currentValue);
+        quatw.value = quat.scalar;
+        quatx.value = quat.x;
+        quaty.value = quat.y;
+        quatz.value = quat.z;
+    }
+
+    // Convert Quaternion to Tait-bryan angles  using rotation sequence from cbSequence. Updates values stored in repeater "eulerRots"
+    function quat2angles() {
+        var euler = IrbcamInterfacePublic.quaternionToEuler(Qt.quaternion(quatw.value,
+                                                                          quatx.value,
+                                                                          quaty.value,
+                                                                          quatz.value),
+                                                            cbSequence.currentValue);
+        eulerRx.value = IrbcamInterfacePublic.radToDeg(euler.x);
+        eulerRy.value = IrbcamInterfacePublic.radToDeg(euler.y);
+        eulerRz.value = IrbcamInterfacePublic.radToDeg(euler.z);
+    }
 
 
-    // IRBCAM Tool data
+    // Tait-Bryan text fields
     ColumnLayout {
-        Label {
-            text: "IRBCAM:"
-            horizontalAlignment: Text.AlignHCenter
-        }
-
         MyComponent {
-            id: irbcamTx
-            labelText: "X (mm)"
-        }
-
-        MyComponent {
-            id: irbcamTy
-            labelText: "Y (mm)"
-        }
-
-        MyComponent {
-            id: irbcamTz
-            labelText: "Z (mm)"
-        }
-
-        MyComponent {
-            id: irbcamRx
+            id: eulerRx
             labelText: "RX (deg)"
+            precision: 4
         }
-
         MyComponent {
-            id: irbcamRy
+            id: eulerRy
             labelText: "RY (deg)"
+            precision: 4
         }
-
         MyComponent {
-            id: irbcamRz
+            id: eulerRz
             labelText: "RZ (deg)"
+            precision: 4
         }
     }
 
@@ -124,119 +108,90 @@ GridLayout {
         RowLayout {
             Button {
                 id: btnleft
-                Layout.preferredWidth: 70
                 text: ">"
-                onClicked: {
-
-                    // irbcam tool rotation
-                    var irbcamToolQuat = IrbcamInterfacePublic.eulerToQuaternion(IrbcamInterfacePublic.degToRad(irbcamRx.value), //gamma(rx)
-                                                                                 IrbcamInterfacePublic.degToRad(irbcamRy.value), //beta(ry)
-                                                                                 IrbcamInterfacePublic.degToRad(irbcamRz.value), //alpha(rz)
-                                                                                 IrbcamInterfacePublic.Zyx); //ZYX(alpha, beta, gamma) // Rotation sequence alpha(rz), beta(ry), gamma(rx)
-                    // prerotate 180 deg about z-axis because the sequence is ZYX
-                    var newRot = Transform.rotZ(IrbcamInterfacePublic.degToRad(180)).times(Transform.quat2rotm(irbcamToolQuat));
-                    var newQuat = Transform.rotm2Quat(newRot);
-
-                    // RPY(gamma, beta, alpha) <=> ZYX(alpha, beta, gamma)
-                    var fanucMotoToolEuler = IrbcamInterfacePublic.quaternionToEuler(newQuat, IrbcamInterfacePublic.Zyx); // gamma, beta, alpha // Returning sequence gamma(rx) beta(ry) alpha(rz)
-                    var fanucMotoToolRpy = IrbcamInterfacePublic.quaternionToRpy(newQuat); // Returning sequence roll(rx), pitch(ry), yaw(rz)
-
-                    // prerotate 180 deg about z-axis because the sequence is ZYX
-                    var newRotH = Transform.rotZ(IrbcamInterfacePublic.degToRad(180)).times(IrbcamInterfacePublic.quaternionToMatrix(irbcamToolQuat));
-                    var newQuatH = IrbcamInterfacePublic.matrixToQuaternion(newRotH);
-
-                    // RPY(gamma, beta, alpha) <=> ZYX(alpha, beta, gamma)
-                    var fanucMotoToolEulerH = IrbcamInterfacePublic.quaternionToEuler(newQuatH, IrbcamInterfacePublic.Zyx); // gamma, beta, alpha // Returning sequence gamma(rx) beta(ry) alpha(rz)
-                    var fanucMotoToolRpyH = IrbcamInterfacePublic.quaternionToRpy(newQuatH); // Returning sequence roll(rx), pitch(ry), yaw(rz)
-
-
-                    fanucMotoTx.value = -irbcamTx.value;
-                    fanucMotoTy.value = -irbcamTy.value;
-                    fanucMotoTz.value = irbcamTz.value;
-
-                    fanucMotoRr.value = IrbcamInterfacePublic.radToDeg(fanucMotoToolRpyH.x); // fanucMotoToolEulerH.z  // fanucMotoToolEuler.z // fanucMotoToolRpyH.x  // fanucMotoToolRpy.x // alpha(rz) // roll(rx)
-                    fanucMotoRp.value = IrbcamInterfacePublic.radToDeg(fanucMotoToolRpyH.y); // fanucMotoToolEulerH.y  // fanucMotoToolEuler.y // fanucMotoToolRpyH.y  // fanucMotoToolRpy.y // beta(ry) // pitch(ry)
-                    fanucMotoRy.value = IrbcamInterfacePublic.radToDeg(fanucMotoToolRpyH.z); // fanucMotoToolEulerH.x  // fanucMotoToolEuler.x // fanucMotoToolRpyH.z  // fanucMotoToolRpy.z // gamma(rx) // yaw(rz)
-                }
+                Layout.preferredWidth: cbSequence.width
+                onClicked: angles2quat()
             }
 
             Button {
                 id: btnright
-                Layout.preferredWidth: 70
+                Layout.preferredWidth: cbSequence.width
                 text: "<"
-                onClicked: {
+                onClicked: quat2angles()
+            }
+        }
 
-                    var fanucMotoToolQuat = IrbcamInterfacePublic.eulerToQuaternion(IrbcamInterfacePublic.degToRad(fanucMotoRr.value), // roll(rx)
-                                                                                    IrbcamInterfacePublic.degToRad(fanucMotoRp.value), // pitch(ry)
-                                                                                    IrbcamInterfacePublic.degToRad(fanucMotoRy.value), // yaw(rz)
-                                                                                    IrbcamInterfacePublic.Zyx); //ZYX(alpha, beta, gamma) // Rotation sequence alpha(rz), beta(ry), gamma(rx)
+        // Tait-Bryan sequence selection
+        RowLayout {
+            Label {
+                text: "Sequence"
+                horizontalAlignment: Text.AlignHCenter
+                Layout.preferredWidth: cbSequence.width
+            }
 
-                    // prerotate -180 deg about z-axis because the sequence is ZYX
-                    var newRot = Transform.rotZ(IrbcamInterfacePublic.degToRad(-180)).times(Transform.quat2rotm(fanucMotoToolQuat));
-                    var newQuat = Transform.rotm2Quat(newRot);
-
-                    // RPY(gamma, beta, alpha) <=> ZYX(alpha, beta, gamma)
-                    var irbcamToolEuler = IrbcamInterfacePublic.quaternionToEuler(newQuat, IrbcamInterfacePublic.Zyx); // gamma, beta, alpha // Returning sequence gamma(rx) beta(ry) alpha(rz)
-                    var irbcamToolRpy = IrbcamInterfacePublic.quaternionToRpy(newQuat); // Returning sequence roll(rx), pitch(ry), yaw(rz)
-
-                    // prerotate 180 deg about z-axis because the sequence is ZYX
-                    var newRotH = Transform.rotZ(IrbcamInterfacePublic.degToRad(-180)).times(IrbcamInterfacePublic.quaternionToMatrix(fanucMotoToolQuat));
-                    var newQuatH = IrbcamInterfacePublic.matrixToQuaternion(newRotH);
-
-                    // RPY(gamma, beta, alpha) <=> ZYX(alpha, beta, gamma)
-                    var irbcamToolEulerH = IrbcamInterfacePublic.quaternionToEuler(newQuatH, IrbcamInterfacePublic.Zyx); // gamma, beta, alpha // Returning sequence gamma(rx) beta(ry) alpha(rz)
-                    var irbcamToolRpyH = IrbcamInterfacePublic.quaternionToRpy(newQuatH); // Returning sequence roll(rx), pitch(ry), yaw(rz)
-
-
-                    irbcamTx.value = -fanucMotoTx.value;
-                    irbcamTy.value = -fanucMotoTy.value;
-                    irbcamTz.value = fanucMotoTz.value;
-
-                    irbcamRx.value = IrbcamInterfacePublic.radToDeg(irbcamToolRpyH.z); //irbcamToolEulerH.x //irbcamToolEuler.x // irbcamToolRpyH.z // irbcamToolRpy.z // gamma(rx) // yaw(rz)
-                    irbcamRy.value = IrbcamInterfacePublic.radToDeg(irbcamToolRpyH.y); //irbcamToolEulerH.y //irbcamToolEuler.y // irbcamToolRpyH.y // irbcamToolRpy.y // beta(ry) // pitch(ry)
-                    irbcamRz.value = IrbcamInterfacePublic.radToDeg(irbcamToolRpyH.x); //irbcamToolEulerH.z //irbcamToolEuler.z // irbcamToolRpyH.x // irbcamToolRpy.x // alpha(rz) // roll(rx)
-
+            // ComboBox to select Tait-Bryan rotation sequence.
+            ComboBox {
+                id: cbSequence
+                Layout.preferredWidth: 200
+                textRole: "sequence"
+                valueRole: "value"
+                model: ListModel {
+                    id: listModel
+                    ListElement {
+                        sequence: "xyz"
+                        value: IrbcamInterfacePublic.Xyz
+                    }
+                    ListElement {
+                        sequence: "xzy"
+                        value: IrbcamInterfacePublic.Xzy
+                    }
+                    ListElement {
+                        sequence: "yxz"
+                        value: IrbcamInterfacePublic.Yxz
+                    }
+                    ListElement {
+                        sequence: "yzx"
+                        value: IrbcamInterfacePublic.Yzx
+                    }
+                    ListElement {
+                        sequence: "zxy"
+                        value: IrbcamInterfacePublic.Zxy
+                    }
+                    ListElement {
+                        sequence: "zyx"
+                        value: IrbcamInterfacePublic.Zyx
+                    }
+                    ListElement {
+                        sequence: "zyz"
+                        value: IrbcamInterfacePublic.Zyz
+                    }
                 }
             }
         }
     }
 
-    // Fanuc/Motoman Tool data
+    // Quaternion text fields
     ColumnLayout {
-        Label {
-            text: "FANUC/MOTOMAN:"
-            horizontalAlignment: Text.AlignHCenter
+        MyComponent {
+            id: quatw
+            labelText: "w"
+            precision: 7
         }
         MyComponent {
-            id: fanucMotoTx
-            labelText: "X (mm)"
+            id: quatx
+            labelText: "x"
+            precision: 7
         }
-
         MyComponent {
-            id: fanucMotoTy
-            labelText: "Y (mm)"
+            id: quaty
+            labelText: "y"
+            precision: 7
         }
-
         MyComponent {
-            id: fanucMotoTz
-            labelText: "Z (mm)"
+            id: quatz
+            labelText: "z"
+            precision: 7
         }
-
-        MyComponent {
-            id: fanucMotoRr
-            labelText: "R (deg)"
-        }
-
-        MyComponent {
-            id: fanucMotoRp
-            labelText: "P (deg)"
-        }
-
-        MyComponent {
-            id: fanucMotoRy
-            labelText: "Y (deg)"
-        }
-
     }
 
     // Close button
