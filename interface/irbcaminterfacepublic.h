@@ -204,13 +204,16 @@ public:
     enum CoordinateFrame {
         UserFrame = 0,
         ObjectFrame,
-        ToolFrame,
-        RobotBaseFrame
+        TooltipFrame,
+        StationaryToolBaseFrame,
+        RobotBaseFrame,
+        RotaryTableBaseFrame,
+        LinearTrackBaseFrame
     };
     Q_ENUM(CoordinateFrame)
 
     /**
-     * @brief Sets position and orientation of the corrdinate frame.
+     * @brief Sets position and orientation of the coordinate frame.
      * @param frame The coordinate frame whose position and orientation will be set/overwritten.
      * @param position The position of the coordinate frame.
      * @param quat The rotation representation by the quaternion of the coordinate frame.
