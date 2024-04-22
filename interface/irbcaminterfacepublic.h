@@ -183,6 +183,42 @@ public:
     Q_INVOKABLE QVector3D quaternionToRpy(QQuaternion quat);
 
 
+    /**
+     * @brief Enum representing different coordinate frames.
+     *
+     * The CoordinateFrame enum defines different coordinate frames used in IRBCAM.
+     *
+     * The values of this enum are registered with the Qt Meta-Object System using the Q_ENUM() macro,
+     * allowing the enum to be used in QML files for integration with QML components.
+     *
+     * Example usage in QML:
+     * @code{qml}
+     * Item {
+     *     property int frame: IrbcamInterfacePublic.UserFrame
+     *     // ...
+     * }
+     * @endcode
+     *
+     * @see CoordinateFrame
+     */
+    enum CoordinateFrame {
+        UserFrame = 0,
+        ObjectFrame,
+        ToolFrame,
+        RobotBaseFrame
+    };
+    Q_ENUM(CoordinateFrame)
+
+    /**
+     * @brief Sets position and orientation of the corrdinate frame.
+     * @param frame The coordinate frame whose position and orientation will be set/overwritten.
+     * @param position The position of the coordinate frame.
+     * @param quat The rotation representation by the quaternion of the coordinate frame.
+     * @sa CoordinateFrame
+     */
+    Q_INVOKABLE void setCoordinateFrame(CoordinateFrame frame, QVector3D position, QQuaternion quat);
+
+
 
 
 
