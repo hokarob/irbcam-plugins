@@ -14,6 +14,8 @@ We have created the following official plugins to demonstrate best practices and
 
 1. **Statistics** A plugin to show statistics for the currently loaded path.
 2. **Quaternion Converter** A plugin to convert between Tait-Bryan and Quaternions.
+3. **Coordinate Frame Calculator** A plugin to create coordinate frames from three positions, for example origin, X and Y.
+4. **Tool Data Converter** A plugin to convert tool data orientation as defined by MOTOMAN/FANUC robots to/from the definition used by IRBCAM
 
 Feel free to explore these plugins to understand how they work and use them as references for your own development.
 
