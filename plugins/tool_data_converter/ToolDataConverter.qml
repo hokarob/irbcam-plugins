@@ -194,7 +194,7 @@ GridLayout {
             labelText: "RZ (deg)"
         }
 
-        Component.onCompleted {
+        Component.onCompleted: {
             root.irbcamToMotmanFanuc()
         }
 
