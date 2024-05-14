@@ -46,6 +46,25 @@ GridLayout {
 
     property int precision: 4
 
+    function motomanFanucToIrbcam() {
+        irbcamTx.value = -fanucMotoTx.value;
+        irbcamTy.value = -fanucMotoTy.value;
+        irbcamTz.value = fanucMotoTz.value;
+
+        irbcamRx.value = fanucMotoRx.value; 
+        irbcamRy.value = fanucMotoRy.value; 
+        irbcamRz.value = Functions.limitAngle(fanucMotoRz.value - 180.0); 
+    }
+
+    function irbcamToMotmanFanuc() {
+        fanucMotoTx.value = -irbcamTx.value;
+        fanucMotoTy.value = -irbcamTy.value;
+        fanucMotoTz.value = irbcamTz.value;
+
+        fanucMotoRx.value = irbcamRx.value; 
+        fanucMotoRy.value = irbcamRy.value; 
+        fanucMotoRz.value = Functions.limitAngle(irbcamRz.value - 180.0); 
+    }
 
     component MyComponent : RowLayout {
         property alias value: tf.value
@@ -124,15 +143,7 @@ GridLayout {
                 Layout.preferredWidth: 70
                 text: ">"
                 onClicked: {
-
-
-                    fanucMotoTx.value = -irbcamTx.value;
-                    fanucMotoTy.value = -irbcamTy.value;
-                    fanucMotoTz.value = irbcamTz.value;
-
-                    fanucMotoRx.value = irbcamRx.value; 
-                    fanucMotoRy.value = irbcamRy.value; 
-                    fanucMotoRz.value = Functions.limitAngle(irbcamRz.value - 180.0); 
+                    root.irbcamToMotmanFanuc()
                 }
             }
 
@@ -141,15 +152,7 @@ GridLayout {
                 Layout.preferredWidth: 70
                 text: "<"
                 onClicked: {
-
-                    irbcamTx.value = -fanucMotoTx.value;
-                    irbcamTy.value = -fanucMotoTy.value;
-                    irbcamTz.value = fanucMotoTz.value;
-
-                    irbcamRx.value = fanucMotoRx.value; 
-                    irbcamRy.value = fanucMotoRy.value; 
-                    irbcamRz.value = Functions.limitAngle(fanucMotoRz.value - 180.0); 
-
+                    root.motomanFanucToIrbcam()
                 }
             }
         }
@@ -189,6 +192,10 @@ GridLayout {
         MyComponent {
             id: fanucMotoRz
             labelText: "RZ (deg)"
+        }
+
+        Component.onCompleted {
+            root.irbcamToMotmanFanuc()
         }
 
     }

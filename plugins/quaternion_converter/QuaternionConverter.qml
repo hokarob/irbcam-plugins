@@ -62,9 +62,9 @@ GridLayout {
 
     // Convert Tait-bryan angles to Quaternion using rotation sequence from cbSequence. Updates values stored in repeater "quaternions"
     function angles2quat() {
-        var quat = IrbcamInterfacePublic.eulerToQuaternion(IrbcamInterfacePublic.degToRad(eulerRx.value),
-                                                           IrbcamInterfacePublic.degToRad(eulerRy.value),
-                                                           IrbcamInterfacePublic.degToRad(eulerRz.value),
+        var quat = IrbcamInterfacePublic.eulerToQuaternion(IrbcamInterfacePublic.degToRad(eulerFirst.value),
+                                                           IrbcamInterfacePublic.degToRad(eulerSecond.value),
+                                                           IrbcamInterfacePublic.degToRad(eulerThird.value),
                                                            cbSequence.currentValue);
         quatw.value = quat.scalar;
         quatx.value = quat.x;
@@ -79,26 +79,26 @@ GridLayout {
                                                                           quaty.value,
                                                                           quatz.value),
                                                             cbSequence.currentValue);
-        eulerRx.value = IrbcamInterfacePublic.radToDeg(euler.x);
-        eulerRy.value = IrbcamInterfacePublic.radToDeg(euler.y);
-        eulerRz.value = IrbcamInterfacePublic.radToDeg(euler.z);
+        eulerFirst.value = IrbcamInterfacePublic.radToDeg(euler.x);
+        eulerSecond.value = IrbcamInterfacePublic.radToDeg(euler.y);
+        eulerThird.value = IrbcamInterfacePublic.radToDeg(euler.z);
     }
 
 
     // Tait-Bryan text fields
     ColumnLayout {
         MyComponent {
-            id: eulerRx
+            id: eulerFirst
             labelText: "RX (deg)"
             precision: 4
         }
         MyComponent {
-            id: eulerRy
+            id: eulerSecond
             labelText: "RY (deg)"
             precision: 4
         }
         MyComponent {
-            id: eulerRz
+            id: eulerThird
             labelText: "RZ (deg)"
             precision: 4
         }
@@ -164,6 +164,45 @@ GridLayout {
                     ListElement {
                         sequence: "zyz"
                         value: IrbcamInterfacePublic.Zyz
+                    }
+                }
+                onCurrentValueChanged: {
+                    switch(currentValue) {
+                        case IrbcamInterfacePublic.Xyz:
+                            eulerFirst.labelText = "RX (deg)"
+                            eulerSecond.labelText = "RY (deg)"
+                            eulerThird.labelText = "RZ (deg)"
+                            break;
+                        case IrbcamInterfacePublic.Xzy:
+                            eulerFirst.labelText = "RX (deg)"
+                            eulerSecond.labelText = "RZ (deg)"
+                            eulerThird.labelText = "RY (deg)"
+                            break;
+                        case IrbcamInterfacePublic.Yxz:
+                            eulerFirst.labelText = "RY (deg)"
+                            eulerSecond.labelText = "RX (deg)"
+                            eulerThird.labelText = "RZ (deg)"
+                            break;
+                        case IrbcamInterfacePublic.Yzx:
+                            eulerFirst.labelText = "RY (deg)"
+                            eulerSecond.labelText = "RZ (deg)"
+                            eulerThird.labelText = "RX (deg)"
+                            break;
+                        case IrbcamInterfacePublic.Zxy:
+                            eulerFirst.labelText = "RZ (deg)"
+                            eulerSecond.labelText = "RX (deg)"
+                            eulerThird.labelText = "RY (deg)"
+                            break;
+                        case IrbcamInterfacePublic.Zyx:
+                            eulerFirst.labelText = "RZ (deg)"
+                            eulerSecond.labelText = "RY (deg)"
+                            eulerThird.labelText = "RX (deg)"
+                            break;
+                        case IrbcamInterfacePublic.Zyz:
+                            eulerFirst.labelText = "RZ (deg)"
+                            eulerSecond.labelText = "RY (deg)"
+                            eulerThird.labelText = "RZ (deg)"
+                            break;
                     }
                 }
             }
