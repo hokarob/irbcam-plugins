@@ -98,6 +98,18 @@ class IrbcamInterfacePublic : public QObject
      */
     Q_PROPERTY(QRect mainWindow READ getMainWindow NOTIFY mainWindowChanged)
 
+    /**
+     * @brief Gets the active ui theme (0: dark, 1: light)
+     * @note This value is used for internal palette synchronization between IRBCAM and plugins. Inside plugins
+     * this value should be accessed via the Colours.currentTheme qml property (import IrbcamQml.Theme)
+     */
+    Q_PROPERTY(int uiTheme READ uiTheme NOTIFY uiThemeChanged)
+    /**
+     * @brief Gets the active accent colour as a hex string (empty string if default)
+     * @note This value is used for internal palette synchronization between IRBCAM and plugins. Inside plugins
+     * the accent colour should be accessed via the palette (e.g. palette.accent or palette.highlight)
+     */
+    Q_PROPERTY(QString accentColour READ accentColour NOTIFY accentColourChanged)
 
 public:
     explicit IrbcamInterfacePublic(QObject *parent = nullptr);
@@ -223,7 +235,15 @@ public:
 
 
 
+    /**
+     * @brief Gets the active ui theme (0: dark, 1: light)
+     */
+    int uiTheme() const;
 
+    /**
+     * @brief Gets the active accent colour as a hex string (empty string if default)
+     */
+    const QString& accentColour() const;
 
 
 public slots:
@@ -243,6 +263,14 @@ signals:
      * Connect to this signal to be notified of changes in the Cartesian path.
      */
     void cartesianPathChanged();
+    /**
+     * @brief Signal emitted when the ui theme changes
+     */
+    void uiThemeChanged();
+    /**
+     * @brief Signal emitted when the accent colour changes
+     */
+    void accentColourChanged();
 
 };
 
