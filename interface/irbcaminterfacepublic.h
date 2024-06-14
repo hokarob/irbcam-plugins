@@ -101,7 +101,7 @@ class IrbcamInterfacePublic : public QObject
     /**
      * @brief Gets the active ui theme (0: dark, 1: light)
      * @note This value is used for internal palette synchronization between IRBCAM and plugins. Inside plugins
-     * this value should be accessed via the Colours.currentTheme qml property (import IrbcamQml.Theme)
+     * this value should be accessed via the Colours.currentTheme qml property (import HokarobQml.Theme)
      */
     Q_PROPERTY(int uiTheme READ uiTheme NOTIFY uiThemeChanged)
     /**
