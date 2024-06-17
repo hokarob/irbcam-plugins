@@ -25,6 +25,12 @@ class IrbcamInterfacePublic : public QObject
     Q_OBJECT
 
     /**
+     * @brief Q_PROPERTY for checking if IRBCAM is built for web.
+     * @note This property is used internally. In the public API the value will always be true
+     */
+    Q_PROPERTY(bool irbcamForWeb READ IrbcamForWeb CONSTANT)
+
+    /**
      * @brief Q_PROPERTY for accessing the URL of the plugin.
      * @return A constant QString representing the plugin's URL.
      * @note This property is constant and can only be read.
@@ -245,6 +251,12 @@ public:
      */
     const QString& accentColour() const;
 
+
+    /**
+     * @brief Check if IRBCAM is built for web
+     * @note This property is used internally. In the public API the value will always be true
+     */
+    static bool IrbcamForWeb();
 
 public slots:
 
