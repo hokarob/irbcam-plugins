@@ -8,9 +8,11 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick3D
 
-// Import IRBCAM theme
-import IrbcamQml.Theme
-import IrbcamQml.UiStyle
+// Import HOKAROB theme
+import HokarobQml.Theme
+// Import HOKAROB Controls library
+import HokarobQml.Controls
+
 
 // Import IRBCAM public interface
 import IRBCAM.InterfacePublic

@@ -26,9 +26,11 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick3D
 
-// Import IRBCAM theme
-import IrbcamQml.Theme
-import IrbcamQml.UiStyle
+// Import HOKAROB theme
+import HokarobQml.Theme
+// Import HOKAROB Controls library
+import HokarobQml.Controls
+
 
 
 import "./resources/functions.js" as Functions
