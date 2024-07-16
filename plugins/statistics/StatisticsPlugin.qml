@@ -323,7 +323,7 @@ ColumnLayout {
 
         let cartesianPath = IrbcamInterfacePublic.cartesianPath;
         let cartesianPose = cartesianPath.targets;
-        let indexArr= cartesianPath.velocity.i;
+        let indexArr = cartesianPath.velocity.i;
         let valueArr = cartesianPath.velocity.value;
         let totalPose = cartesianPose.pX.length;
 
@@ -351,9 +351,8 @@ ColumnLayout {
                 countMoveL -= 1;
             }
             if(i === indexArr[tmpIndex]) {
-                velocity = valueArr[tmpIndex]
-                if(velocity === -1) { // if fast speed then use the max speed of the valueArr
-                    velocity = isFinite(Math.max.apply(null, valueArr)) ? Math.max.apply(null, valueArr) : 0;
+                velocity = valueArr[tmpIndex].value
+                if(valueArr[tmpIndex].mode === 1) { //SpeedModeRapid
                     fastMove = true;
                 }
                 else {
