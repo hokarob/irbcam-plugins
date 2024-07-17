@@ -41,6 +41,17 @@ ColumnLayout {
     property double estimatedTime: 0.0
 
 
+   function convertSeconds(totalSeconds) {
+        var hours = Math.floor(totalSeconds / 3600)
+        var minutes = Math.floor((totalSeconds % 3600) / 60)
+        var seconds = totalSeconds % 60
+        return {
+            hours: hours,
+            minutes: minutes,
+            seconds: seconds
+        }
+    }
+
     RowLayout {
 
         Label {
@@ -49,7 +60,7 @@ ColumnLayout {
 
         Label {
             id: pathlength
-            text: qsTr(root.pathLength.toFixed(2)+" mm")
+            text: ((root.pathLength)/1000.0).toFixed(3)+" m"
             Layout.alignment: Qt.AlignRight
         }
 
@@ -64,7 +75,13 @@ ColumnLayout {
 
         Label {
             id: esttime
-            text: qsTr(root.estimatedTime.toFixed(2)+" s")
+            property int hours: convertSeconds(root.estimatedTime).hours
+            property int minutes: convertSeconds(root.estimatedTime).minutes
+            property int seconds: convertSeconds(root.estimatedTime).seconds
+            text: (hours > 0 ? (hours + " hr ") : "") +
+                (hours > 0 || minutes > 0 ? (minutes + " min ") : "") + 
+                seconds +  " sec"
+            
             Layout.alignment: Qt.AlignRight
         }
 
@@ -302,7 +319,7 @@ ColumnLayout {
             Layout.fillWidth: true
         }
         Button {
-            text: qsTr("Close")
+            text: "Close"
             onClicked: {
                 pluginWindow.close()
             }

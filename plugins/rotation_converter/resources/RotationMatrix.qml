@@ -57,10 +57,6 @@ GridLayout {
             temp.m11 = text
             inputUpdated(temp)
         }
-        onAccepted: {
-            if (acceptableInput)
-                nextItemInFocusChain().forceActiveFocus();
-        }
     }
 
     TextField {
@@ -80,10 +76,6 @@ GridLayout {
             let temp = root.rotMat
             temp.m12 = text
             inputUpdated(temp)
-        }
-        onAccepted: {
-            if (acceptableInput)
-                nextItemInFocusChain().forceActiveFocus();
         }
     }
 
@@ -105,10 +97,6 @@ GridLayout {
             temp.m13 = text
             inputUpdated(temp)
         }
-        onAccepted: {
-            if (acceptableInput)
-                nextItemInFocusChain().forceActiveFocus();
-        }
     }
 
     TextField {
@@ -128,10 +116,6 @@ GridLayout {
             let temp = root.rotMat
             temp.m21 = text
             inputUpdated(temp)
-        }
-        onAccepted: {
-            if (acceptableInput)
-                nextItemInFocusChain().forceActiveFocus();
         }
     }
 
@@ -153,10 +137,6 @@ GridLayout {
             temp.m22 = text
             inputUpdated(temp)
         }
-        onAccepted: {
-            if (acceptableInput)
-                nextItemInFocusChain().forceActiveFocus();
-        }
     }
 
     TextField {
@@ -176,10 +156,6 @@ GridLayout {
             let temp = root.rotMat
             temp.m23 = text
             inputUpdated(temp)
-        }
-        onAccepted: {
-            if (acceptableInput)
-                nextItemInFocusChain().forceActiveFocus();
         }
     }
 
@@ -201,10 +177,6 @@ GridLayout {
             temp.m31 = text
             inputUpdated(temp)
         }
-        onAccepted: {
-            if (acceptableInput)
-                nextItemInFocusChain().forceActiveFocus();
-        }
     }
 
     TextField {
@@ -225,10 +197,6 @@ GridLayout {
             temp.m32 = text
             inputUpdated(temp)
         }
-        onAccepted: {
-            if (acceptableInput)
-                nextItemInFocusChain().forceActiveFocus();
-        }
     }
 
     TextField {
@@ -248,10 +216,6 @@ GridLayout {
             let temp = root.rotMat
             temp.m33 = text
             inputUpdated(temp)
-        }
-        onAccepted: {
-            if (acceptableInput)
-                nextItemInFocusChain().forceActiveFocus();
         }
     }
 }

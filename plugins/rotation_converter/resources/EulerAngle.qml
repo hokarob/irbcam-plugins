@@ -133,10 +133,6 @@ GridLayout {
             temp.x = text
             inputUpdated(temp)
         }
-        onAccepted: {
-            if (acceptableInput)
-                nextItemInFocusChain().forceActiveFocus();
-        }
     }
 
 
@@ -165,10 +161,6 @@ GridLayout {
             temp.y = text
             inputUpdated(temp)
         }
-        onAccepted: {
-            if (acceptableInput)
-                nextItemInFocusChain().forceActiveFocus();
-        }
     }
 
     Label {
@@ -193,10 +185,6 @@ GridLayout {
             let temp = root.eulerAngles
             temp.z = text
             inputUpdated(temp)
-        }
-        onAccepted: {
-            if (acceptableInput)
-                nextItemInFocusChain().forceActiveFocus();
         }
     }   
 }

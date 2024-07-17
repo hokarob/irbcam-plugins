@@ -55,10 +55,6 @@ GridLayout {
             temp.scalar = text
             inputUpdated(temp)
         }
-        onAccepted: {
-            if (acceptableInput)
-                nextItemInFocusChain().forceActiveFocus();
-        }
     }
 
     Label {
@@ -82,10 +78,6 @@ GridLayout {
             let temp = root.quat
             temp.x = text
             inputUpdated(temp)
-        }
-        onAccepted: {
-            if (acceptableInput)
-                nextItemInFocusChain().forceActiveFocus();
         }
     }
 
@@ -111,10 +103,6 @@ GridLayout {
             temp.y = text
             inputUpdated(temp)
         }
-        onAccepted: {
-            if (acceptableInput)
-                nextItemInFocusChain().forceActiveFocus();
-        }
     }
 
 
@@ -139,10 +127,6 @@ GridLayout {
             let temp = root.quat
             temp.z = text
             inputUpdated(temp)
-        }
-        onAccepted: {
-            if (acceptableInput)
-                nextItemInFocusChain().forceActiveFocus();
         }
     }
 }
