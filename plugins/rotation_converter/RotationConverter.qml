@@ -93,8 +93,10 @@ GridLayout {
         RotationMatrix {
             id: inRotMat
             onInputUpdated: function(value) {
-                inQuat.quat = mat2Quat(value)
-                inEul.eulerAngles = quat2Eul(inQuat.quat, inEul.rotationSequence)
+                if(inRotMat.validRot) {
+                    inQuat.quat = mat2Quat(value)
+                    inEul.eulerAngles = quat2Eul(inQuat.quat, inEul.rotationSequence)
+                }
             }
         }
     }
