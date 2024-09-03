@@ -153,14 +153,14 @@ public:
     Q_ENUM(RotationSequence)
     /**
      * @brief Converts Euler angles to a Quaternion using the specified rotation sequence.
-     * @param r1 The rotation angle around the first axis in radians.
-     * @param r2 The rotation angle around the second axis in radians.
-     * @param r3 The rotation angle around the third axis in radians.
+     * @param rx The rotation angle around the x axis in radians.
+     * @param ry The rotation angle around the y axis in radians.
+     * @param rz The rotation angle around the z axis in radians.
      * @param seq The rotation sequence to be used for conversion.
      * @return The resulting Quaternion representing the given Euler angles.
      * @sa RotationSequence
     */
-    Q_INVOKABLE QQuaternion eulerToQuaternion(double r1, double r2, double r3, RotationSequence seq);
+    Q_INVOKABLE QQuaternion eulerToQuaternion(double rx, double ry, double rz, RotationSequence seq);
     /**
      * @brief Converts a Quaternion to Euler angles using the specified rotation sequence.
      * @param quat The input Quaternion to be converted to Euler angles.
