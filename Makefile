@@ -1,8 +1,8 @@
 .PHONY: build
 
 # Directories
-PLUGIN_DIR := ./plugins
-BUILD_DIR := ./build
+PLUGIN_DIR := plugins
+BUILD_DIR := build
 
 # Find all directories inside PLUGIN_DIR
 PLUGIN_DIRS := $(wildcard $(PLUGIN_DIR)/*/)
@@ -19,12 +19,15 @@ help:
 
 # target: archives - Make ZIP archives of plugins
 archives: $(ZIP_FILES)
+	@echo Plugin archives exported
 
 # Rule to create zip files
 $(BUILD_DIR)/%.zip: $(PLUGIN_DIR)/%
+	@# Make sure the build directory exists
 	@mkdir -p $(BUILD_DIR)
-	# zip -r $@ $<
-	cd $</.. && zip -r ../$@ ./*
+	@# Zip files
+	@cd $(PLUGIN_DIR) && zip -r ../$@ $(patsubst $(PLUGIN_DIR)/%,%,$<)
+
 
 # target: clean - Clean target to remove all zip files
 clean:

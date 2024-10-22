@@ -19,7 +19,7 @@ GridLayout {
     layoutDirection: Qt.LeftToRight
     flow: GridView.FlowLeftToRight
 
-    property vector3d eulerAngles: Qt.vector3d(0,0,0) // eulerFirst, eulerSecond, eulerThird in deg
+    property vector3d eulerAngles: Qt.vector3d(0,0,0) // deg
     property int rotationSequence: cbSequence.currentValue
     property int precision: 4
     property bool readOnly: false
@@ -68,50 +68,11 @@ GridLayout {
                 value: IrbcamInterfacePublic.Zyz
             }
         }
-        onCurrentValueChanged: {
-            switch(currentValue) {
-                case IrbcamInterfacePublic.Xyz:
-                    eulerFirstLabel.text = "RX (deg)"
-                    eulerSecondLabel.text = "RY (deg)"
-                    eulerThirdLabel.text = "RZ (deg)"
-                    break;
-                case IrbcamInterfacePublic.Xzy:
-                    eulerFirstLabel.text = "RX (deg)"
-                    eulerSecondLabel.text = "RZ (deg)"
-                    eulerThirdLabel.text = "RY (deg)"
-                    break;
-                case IrbcamInterfacePublic.Yxz:
-                    eulerFirstLabel.text = "RY (deg)"
-                    eulerSecondLabel.text = "RX (deg)"
-                    eulerThirdLabel.text = "RZ (deg)"
-                    break;
-                case IrbcamInterfacePublic.Yzx:
-                    eulerFirstLabel.text = "RY (deg)"
-                    eulerSecondLabel.text = "RZ (deg)"
-                    eulerThirdLabel.text = "RX (deg)"
-                    break;
-                case IrbcamInterfacePublic.Zxy:
-                    eulerFirstLabel.text = "RZ (deg)"
-                    eulerSecondLabel.text = "RX (deg)"
-                    eulerThirdLabel.text = "RY (deg)"
-                    break;
-                case IrbcamInterfacePublic.Zyx:
-                    eulerFirstLabel.text = "RZ (deg)"
-                    eulerSecondLabel.text = "RY (deg)"
-                    eulerThirdLabel.text = "RX (deg)"
-                    break;
-                case IrbcamInterfacePublic.Zyz:
-                    eulerFirstLabel.text = "RZ (deg)"
-                    eulerSecondLabel.text = "RY (deg)"
-                    eulerThirdLabel.text = "RZ (deg)"
-                    break;
-            }
-        }
     }
 
     Label {
         id: eulerFirstLabel
-        text: "RX (deg)"
+        text: (cbSequence.currentValue === IrbcamInterfacePublic.Zyz) ? "RZ1 (deg)" : "RX (deg)"
     }
 
     TextField {
@@ -128,14 +89,11 @@ GridLayout {
                 selectAll()
         }
         onEditingFinished: {
-//            root.eulerAngles.x = text
             let temp = root.eulerAngles
             temp.x = text
             inputUpdated(temp)
         }
     }
-
-
 
     Label {
         id: eulerSecondLabel
@@ -156,7 +114,6 @@ GridLayout {
                 selectAll()
         }
         onEditingFinished: {
-//            root.eulerAngles.y = text
             let temp = root.eulerAngles
             temp.y = text
             inputUpdated(temp)
@@ -165,7 +122,7 @@ GridLayout {
 
     Label {
         id: eulerThirdLabel
-        text: "RZ (deg)"
+        text: (cbSequence.currentValue === IrbcamInterfacePublic.Zyz) ? "RZ2 (deg)" : "RZ (deg)"
     }
 
     TextField {
@@ -181,7 +138,6 @@ GridLayout {
                 selectAll()
         }
         onEditingFinished: {
-//            root.eulerAngles.z = text
             let temp = root.eulerAngles
             temp.z = text
             inputUpdated(temp)
