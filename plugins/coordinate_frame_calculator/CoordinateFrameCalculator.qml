@@ -40,7 +40,7 @@ import QtQuick.Layouts
 import QtQuick3D
 
 // Import HOKAROB theme
-import HokarobQml.Theme
+import Hokarob.Theme
 // Import HOKAROB Controls library
 import HokarobQml.Controls
 
@@ -618,7 +618,7 @@ ColumnLayout {
         Layout.topMargin: 10
         wrapMode: Text.Wrap
         text: root.isComputed && !root.validFrame ? "Invalid targets" : ""
-        color: Colours.red
+        color: Theme.colours.red
     }
 
 

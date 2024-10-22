@@ -4,7 +4,7 @@ import QtQuick.Layouts
 import QtQuick3D
 
 // Import HOKAROB theme
-import HokarobQml.Theme
+import Hokarob.Theme
 // Import HOKAROB Controls library
 import HokarobQml.Controls
 
@@ -34,7 +34,7 @@ GridLayout {
         }
 
         Label {
-            color: Colours.red
+            color: Theme.colours.red
             text: validRot ? "" : "invalid"
         }
     }
