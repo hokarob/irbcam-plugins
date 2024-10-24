@@ -109,13 +109,13 @@ class IrbcamInterfacePublic : public QObject
      * @note This value is used for internal palette synchronization between IRBCAM and plugins. Inside plugins
      * this value should be accessed via the Colours.currentTheme qml property (import HokarobQml.Theme)
      */
-    Q_PROPERTY(int uiTheme READ uiTheme NOTIFY uiThemeChanged)
+    // Q_PROPERTY(Colours::ColourTheme uiTheme READ uiTheme NOTIFY uiThemeChanged)
     /**
      * @brief Gets the active accent colour as a hex string (empty string if default)
      * @note This value is used for internal palette synchronization between IRBCAM and plugins. Inside plugins
      * the accent colour should be accessed via the palette (e.g. palette.accent or palette.highlight)
      */
-    Q_PROPERTY(QString accentColour READ accentColour NOTIFY accentColourChanged)
+    // Q_PROPERTY(QString accentColour READ accentColour NOTIFY accentColourChanged)
 
 public:
     explicit IrbcamInterfacePublic(QObject *parent = nullptr);
@@ -244,12 +244,12 @@ public:
     /**
      * @brief Gets the active ui theme (0: dark, 1: light)
      */
-    int uiTheme() const;
+    // Colours::ColourTheme uiTheme() const;
 
     /**
      * @brief Gets the active accent colour as a hex string (empty string if default)
      */
-    const QString& accentColour() const;
+    // const QString& accentColour() const;
 
 
     /**
@@ -278,11 +278,11 @@ signals:
     /**
      * @brief Signal emitted when the ui theme changes
      */
-    void uiThemeChanged();
+    // void uiThemeChanged();
     /**
      * @brief Signal emitted when the accent colour changes
      */
-    void accentColourChanged();
+    // void accentColourChanged();
 
 };
 
