@@ -5,8 +5,6 @@
 #include "irbcaminterface.h"
 #include <QMatrix4x4>
 
-#include "targetproxymodel.h"
-
 /**
  * @class IrbcamInterfacePublic
  * @brief Public Interface for Extending IRBCAM using QML Plugins.
@@ -53,40 +51,49 @@ class IrbcamInterfacePublic : public QObject
     Q_PROPERTY(QJsonObject settings READ getSettings CONSTANT)
     /**
      * @brief Access the Cartesian path in the station.
-     *
-     * This property provides access to the Cartesian path of the robot's motion. The Cartesian path
-     * is represented as a model with various access roles. Each component contains specific information related to the
-     * robot's motion.
-     *
-     * @return A TargetProxyModel containing information about the path
-     *
-     * Available role names are:
-     *
-     * Role name | Type | Description
-     * --- | --- | ---
-     * px               | double        | X-position
-     * py               | double        | Y-position
-     * pz               | double        | Z-position
-     * rz1              | double        | First euler rotation (z-axis)
-     * ry               | double        | Second euler rotation (y-axis)
-     * rz2              | double        | Third euler rotation (z-axis)
-     * velocityMode     | SpeedMode     | Speed mode (see SpeedMode)
-     * velocity         | double        | Speed
-     * velocityChange   | bool          | Speed change
-     * toolNumber       | int           | Tool index
-     * toolChange       | bool          | Tool index change
-     * spindleSpeed     | double        | Spindle speed
-     * spindleChange    | bool          | Spindle speed change
-     * motionType       | MotionType    | Motion type (see MotionType)
-     * status           | KinSolution   | The current solution state of this target (see KinSolution)
-     *
-     *
-     * These can be accessed either via the Qt [Model/View](https://doc.qt.io/qt-6/qtquick-modelviewsdata-modelview.html)
-     * interface or can be read directly using the `dataAt(index, roleName)` method
-     *
-     *
+ *
+ * This property provides access to the Cartesian path of the robot's motion. The Cartesian path
+ * is represented as a JSON object with various components, including 'spindle', 'targets', 'tool',
+ * and 'velocity'. Each component contains specific information related to the robot's motion.
+ *
+ * @return A [QJsonObject](https://doc.qt.io/qt-6/qjsonobject.html) representing the Cartesian path in the station.
+ *
+ * The structure of the QJsonObject object is as follows:
+ * \code{.json}
+ * {
+ *    "spindle": {
+ *        "i": [0],
+ *        "value": [0]
+ *    },
+ *    "targets": {
+ *        "pX": [1],
+ *        "pY": [2],
+ *        "pZ": [3],
+ *        "rY": [3.141592653589793],
+ *        "rZ": [0],
+ *        "rZ2": [0],
+ *        "type": [0]
+ *    },
+ *    "tool": {
+ *        "i": [0],
+ *        "value": [0]
+ *    },
+ *    "velocity": {
+ *        "i": [0],
+ *        "value": [-1]
+ *    }
+ * }
+ * \endcode
+ *
+ * The QJsonObject object contains arrays with values representing the translations and rotations. The length
+ * of these arrays depends on the size of the path (number of targets), and the 'tool', 'velocity', and 'spindle' components
+ * contain sparse data, where [i] is the index.
+ *
+ * @note This property is read-only and cannot be modified directly.
+ *
+ * @see cartesianPathChanged() Signal that is emitted when the Cartesian path changes.
      */
-    Q_PROPERTY(TargetProxyModel* pathModel READ pathModel CONSTANT FINAL)
+    Q_PROPERTY(QJsonObject cartesianPath READ getCartesianPath NOTIFY cartesianPathChanged)
 
     /**
      * @brief Q_PROPERTY for accessing the main window's geometry as a QRect.
@@ -96,6 +103,19 @@ class IrbcamInterfacePublic : public QObject
      * @sa mainWindowChanged
      */
     Q_PROPERTY(QRect mainWindow READ getMainWindow NOTIFY mainWindowChanged)
+
+    /**
+     * @brief Gets the active ui theme (0: dark, 1: light)
+     * @note This value is used for internal palette synchronization between IRBCAM and plugins. Inside plugins
+     * this value should be accessed via the Colours.currentTheme qml property (import HokarobQml.Theme)
+     */
+    // Q_PROPERTY(Colours::ColourTheme uiTheme READ uiTheme NOTIFY uiThemeChanged)
+    /**
+     * @brief Gets the active accent colour as a hex string (empty string if default)
+     * @note This value is used for internal palette synchronization between IRBCAM and plugins. Inside plugins
+     * the accent colour should be accessed via the palette (e.g. palette.accent or palette.highlight)
+     */
+    // Q_PROPERTY(QString accentColour READ accentColour NOTIFY accentColourChanged)
 
 public:
     explicit IrbcamInterfacePublic(QObject *parent = nullptr);
@@ -180,7 +200,6 @@ public:
     */
     Q_INVOKABLE QVector3D quaternionToRpy(QQuaternion quat);
 
-    TargetProxyModel* pathModel();
 
     /**
      * @brief Enum representing different coordinate frames.
@@ -212,56 +231,6 @@ public:
     Q_ENUM(CoordinateFrame)
 
     /**
-     * @brief The type of move operation
-     */
-    enum MotionType
-    {
-        /// Linear move. Corresponds to moveL
-        MotionTypeLinear = int(EMotionType::MotionTypeLinear),
-        /// Arc move. Corresponds to moveC
-        MotionTypeArcMidpoint = int(EMotionType::MotionTypeArcMidpoint),
-        /// Linear lift point. Exported as a linear move
-        MotionTypeLinearLiftPoint = int(EMotionType::MotionTypeLinearLiftPoint),
-        /// Rotary table lift point. Exported as a linear move
-        MotionTypeRotaryLiftPoint1 = int(EMotionType::MotionTypeRotaryLiftPoint1),
-        /// Rotary table lift point. Exported as a linear move
-        MotionTypeRotaryLiftPoint2 = int(EMotionType::MotionTypeRotaryLiftPoint2),
-        /// Rotary table lift point. Exported as a linear move
-        MotionTypeRotaryLiftPoint3 = int(EMotionType::MotionTypeRotaryLiftPoint3),
-        /// Rotary table lift point. Exported as a linear move
-        MotionTypeRotaryLiftPoint4 = int(EMotionType::MotionTypeRotaryLiftPoint4),
-    };
-    Q_ENUM(MotionType)
-
-    /**
-     * @brief Sped mode
-     */
-    enum SpeedMode
-    {
-        /// Manual input
-        SpeedModeInput = int(ESpeedMode::SpeedModeInput),
-        /// Rapid move speed. Usually a special type of move speed configured by the controller
-        SpeedModeRapid = int(ESpeedMode::SpeedModeRapid),
-        /// Cutting move speed. Usually a special type of move speed configured by the controller
-        SpeedModeCutting = int(ESpeedMode::SpeedModeCutting),
-    };
-    Q_ENUM(SpeedMode)
-
-    /**
-     * @brief Status of solution
-     */
-    enum KinSolution
-    {
-        /// The target/path is not solved and an attempt to solve it has not been made
-        NotSolved = int(EKinSolution::NotSolved),
-        /// An attempt to solve the target/path was made, but it failed
-        Failed = int(EKinSolution::Failed),
-        /// The target /path was solved successfully
-        Solved = int(EKinSolution::Solved),
-    };
-    Q_ENUM(KinSolution)
-
-    /**
      * @brief Sets position and orientation of the coordinate frame.
      * @param frame The coordinate frame whose position and orientation will be set/overwritten.
      * @param position The position of the coordinate frame.
@@ -269,6 +238,19 @@ public:
      * @sa CoordinateFrame
      */
     Q_INVOKABLE void setCoordinateFrame(CoordinateFrame frame, QVector3D position, QQuaternion quat);
+
+
+
+    /**
+     * @brief Gets the active ui theme (0: dark, 1: light)
+     */
+    // Colours::ColourTheme uiTheme() const;
+
+    /**
+     * @brief Gets the active accent colour as a hex string (empty string if default)
+     */
+    // const QString& accentColour() const;
+
 
     /**
      * @brief Check if IRBCAM is built for web
@@ -286,6 +268,21 @@ signals:
      * Connect to this signal to perform actions when the main window size is updated.
      */
     void mainWindowChanged();
+    /**
+     * @brief Signal emitted when the Cartesian path has changed.
+     *
+     * This signal is emitted whenever the Cartesian path used in the station is updated. I.e. if a target is edited.
+     * Connect to this signal to be notified of changes in the Cartesian path.
+     */
+    void cartesianPathChanged();
+    /**
+     * @brief Signal emitted when the ui theme changes
+     */
+    // void uiThemeChanged();
+    /**
+     * @brief Signal emitted when the accent colour changes
+     */
+    // void accentColourChanged();
 
 };
 
