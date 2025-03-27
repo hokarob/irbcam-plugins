@@ -11,9 +11,10 @@ To kickstart your plugin development, here's a basic boilerplate for a IRBCAM QM
 import QtQuick
 import QtQuick.Layouts
 
-// Import IRBCAM theme
-import IrbcamQml.Theme
-import IrbcamQml.UiStyle
+// Import Hokarob theme
+import HokarobQml.Theme
+// Import Hokarob Controls library
+import HokarobQml.Controls
 
 // Import IRBCAM public interface
 import IRBCAM.InterfacePublic
@@ -36,7 +37,7 @@ ColumnLayout {
 In this template:
 
 - We import the necessary QtQuick modules for QML development.
-- The IRBCAM theme and UI style modules are imported to maintain a consistent look and feel.
+- The Hokarob theme and UI style modules are imported to maintain a consistent look and feel.
 - The IRBCAM public interface module, named [IRBCAM.InterfacePublic][apiclass], is included for accessing IRBCAM's functionality.
 
 You can use this template as a starting point for your plugin, adding your QML components, functionality, and UI elements within the ColumnLayout. The example provided adds a button, demonstrating how to integrate QML components into your plugin.
