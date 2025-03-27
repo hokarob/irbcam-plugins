@@ -4,14 +4,12 @@
 
 import QtQuick
 import QtCharts
-import QtQuick.Controls
 import QtQuick.Layouts
 
 // Import HOKAROB theme
 import HokarobQml.Theme
 // Import HOKAROB Controls library
 import HokarobQml.Controls
-
 
 // Import IRBCAM public interface
 import IRBCAM.InterfacePublic
@@ -24,22 +22,22 @@ ColumnLayout {
     id: root
 
     property list<int> countVec: [0, 0, 0, 0, 0, 0, 0]
-    property double minX: 0.0
-    property double maxX: 0.0
-    property double minY: 0.0
-    property double maxY: 0.0
-    property double minZ: 0.0
-    property double maxZ: 0.0
+    property vector3d minPos: Qt.vector3d(0.0, 0.0, 0.0)
+    property vector3d maxPos: Qt.vector3d(0.0, 0.0, 0.0)
     property double pathLength: 0.0
 
+    property int countTargets: 0
     property int countMoveL: 0
     property int countMoveC: 0
     property double minMoveL: 0.0
     property double maxMoveL: 0.0
-    property double countFastMove: 0
+    property int countRapidMove: 0
+    property int countCuttingMove: 0
+    property int countInputMove: 0
 
     property double estimatedTime: 0.0
 
+    property bool dataOutdated: true
 
    function convertSeconds(totalSeconds) {
         var hours = Math.floor(totalSeconds / 3600)
@@ -156,16 +154,12 @@ ColumnLayout {
             Label {
                 text: "X Coordinates"
             }
-
             Label {
-                id: minX
-                text: (root.minX.toFixed(2))
+                text: root.minPos.x.toFixed(2)
                 Layout.alignment: Qt.AlignRight
             }
-
             Label {
-                id: maxX
-                text: (root.maxX.toFixed(2))
+                text: root.maxPos.x.toFixed(2)
                 Layout.alignment: Qt.AlignRight
             }
 
@@ -173,16 +167,12 @@ ColumnLayout {
             Label {
                 text: "Y Coordinates"
             }
-
             Label {
-                id: minY
-                text: (root.minY.toFixed(2))
+                text: root.minPos.y.toFixed(2)
                 Layout.alignment: Qt.AlignRight
             }
-
             Label {
-                id: maxY
-                text: (root.maxY.toFixed(2))
+                text: root.maxPos.y.toFixed(2)
                 Layout.alignment: Qt.AlignRight
             }
 
@@ -190,16 +180,13 @@ ColumnLayout {
             Label {
                 text: "Z Coordinates"
             }
-
             Label {
-                id: minZ
-                text: (root.minZ.toFixed(2))
+                text: root.minPos.z.toFixed(2)
                 Layout.alignment: Qt.AlignRight
             }
-
             Label {
                 id: maxZ
-                text: (root.maxZ.toFixed(2))
+                text: root.maxPos.z.toFixed(2)
                 Layout.alignment: Qt.AlignRight
             }
 
@@ -209,13 +196,13 @@ ColumnLayout {
 
             Label {
                 id: minMoveL
-                text: (root.minMoveL.toFixed(2))
+                text: root.minMoveL.toFixed(2)
                 Layout.alignment: Qt.AlignRight
             }
 
             Label {
                 id: maxMoveL
-                text: (root.maxMoveL.toFixed(2))
+                text: root.maxMoveL.toFixed(2)
                 Layout.alignment: Qt.AlignRight
             }
 
@@ -262,13 +249,22 @@ ColumnLayout {
             }
 
             Label {
-                text: "MoveL";
+                text: "Targets";
                 Layout.rightMargin: 30
+            }
+            Label {
+                text: root.countTargets
+                Layout.alignment: Qt.AlignRight
+                horizontalAlignment: Text.AlignRight
+                Layout.preferredWidth: 50
             }
 
             Label {
-                id: moveL
-                text: ((root.countMoveL - 1) > 0) ? (root.countMoveL - 1) :  0
+                text: "MoveL";
+                Layout.rightMargin: 30
+            }
+            Label {
+                text: Math.max(0, root.countMoveL)
                 Layout.alignment: Qt.AlignRight
                 horizontalAlignment: Text.AlignRight
                 Layout.preferredWidth: 50
@@ -278,166 +274,237 @@ ColumnLayout {
             Label {
                 text: "MoveC"
             }
-
             Label {
                 id: moveC
-                text: (root.countMoveC)
+                text: Math.max(0, root.countMoveC)
                 Layout.alignment: Qt.AlignRight
                 horizontalAlignment: Text.AlignRight
             }
 
 
             Label {
-                text: "Fast"
+                text: "Input"
             }
-
             Label {
-                id: fast
-                text: ((root.countFastMove - 1) > 0) ? (root.countFastMove - 1) :  0
+                text: Math.max(0, root.countInputMove)
                 Layout.alignment: Qt.AlignRight
                 horizontalAlignment: Text.AlignRight
             }
 
-
             Label {
-                text: "Slow"
+                text: "Rapid"
             }
-
             Label {
-                id: slow
-                text: (root.countMoveC) + (((root.countMoveL - 1) > 0) ? (root.countMoveL - 1) :  0) - (((root.countFastMove - 1) > 0) ? (root.countFastMove - 1) :  0)
+                text: Math.max(0, root.countRapidMove)
                 Layout.alignment: Qt.AlignRight
                 horizontalAlignment: Text.AlignRight
             }
 
+            Label {
+                text: "Cutting"
+            }
+            Label {
+                text: Math.max(0, root.countCuttingMove)
+                Layout.alignment: Qt.AlignRight
+                horizontalAlignment: Text.AlignRight
+            }
         }
 
     }
     RowLayout {
         Layout.topMargin: 10
+
+        Button {
+            text: "Recalculate"
+            onClicked: loopOverPose()
+        }
+
+        Label {
+            visible: root.dataOutdated
+            text: "* Data has changed"
+        }
+
         Item {
             Layout.fillWidth: true
         }
+
         Button {
             text: "Close"
             onClicked: {
-                pluginWindow.close()
+                ApplicationWindow.window.close()
             }
         }
 
     }
 
     Connections {
-        target: IrbcamInterfacePublic
-        function onCartesianPathChanged() {
-            loopOverPose();
+        target: IrbcamInterfacePublic.pathModel
+        function onModelReset() {
+            root.dataOutdated = true
+        }
+        function onDataChanged(topLeft, bottomRight, roles) {
+            // Avoid notifying that data has changed if the role is not one that we use in calculations
+            // No roles means all data has changed
+            if (roles.length === 0) {
+                root.dataOutdated = true
+                return
+            }
+
+            // Loop through the list of changed roles
+            for (let role of roles) {
+                // Get the role name of the role id
+                let roleName = IrbcamInterfacePublic.pathModel.roleName(role)
+                // Check if the role name corresponds with any of the roles we use
+                switch (roleName) {
+                case "px":
+                case "py":
+                case "pz":
+                case "motionType":
+                case "velocityMode":
+                case "velocity":
+                    root.dataOutdated = true
+                    return
+                }
+            }
+        }
+        function onRowsInserted() {
+            root.dataOutdated = true
+        }
+        function onRowsRemoved() {
+            root.dataOutdated = true
         }
     }
 
     Component.onCompleted: loopOverPose()
 
     function loopOverPose() {
-
-        let cartesianPath = IrbcamInterfacePublic.cartesianPath;
-        let cartesianPose = cartesianPath.targets;
-        let indexArr = cartesianPath.velocity.i;
-        let valueArr = cartesianPath.velocity.value;
-        let totalPose = cartesianPose.pX.length;
+        let path = IrbcamInterfacePublic.pathModel
+        let targetCount = path.rowCount()
 
         //initialize
-        let countMoveL = 0;
-        let countMoveC = 0;
-        let pathLength = 0.0;
-        let estimatedTime = 0.0;
-        let countVec = [0, 0, 0, 0, 0, 0, 0];
-        let minMoveL = Infinity;
-        let maxMoveL = -Infinity;
-        let countFastMove = 0;
+        let countMoveL = 0
+        let countMoveC = 0
+        let estimatedTime = 0.0
+        let pathLength = 0.0
+        let countVec = [0, 0, 0, 0, 0, 0, 0]
+        let minMoveL = Infinity
+        let maxMoveL = -Infinity
+        let minPos = Qt.vector3d(Infinity, Infinity, Infinity)
+        let maxPos = Qt.vector3d(-Infinity, -Infinity, -Infinity)
+        let countRapidMove = 0
+        let countCuttingMove = 0
+        let countInputMove = 0
 
+        let prevPos = Qt.vector3d(0.0, 0.0, 0.0)
+        let prevSpeed = 0.0
+        let prevType = -1
 
-        let tmpIndex = 0;
+        for (let i = 0; i < targetCount; ++i) {
+            let x = path.dataAt(i, "px")
+            let y = path.dataAt(i, "py")
+            let z = path.dataAt(i, "pz")
+            let type = path.dataAt(i, "motionType")
+            let speedMode = path.dataAt(i, "velocityMode")
+            let speed = path.dataAt(i, "velocity")
 
-        let velocity = 0.0; // mm/s
-        let fastMove = false;
+            let pos = Qt.vector3d(x, y, z)
+            if (i != 0) {
+                // The cartesian distance between two vectors is the length of the difference vector between them
+                let distance = pos.minus(prevPos).length()
+                pathLength += distance
+                if (speed > 0) {
+                    estimatedTime += distance/prevSpeed
+                }
 
-        for(var i = 0; i < totalPose; i++ ) {
-            if(cartesianPose.type[i] === 0) {
-                countMoveL += 1; // substract 1 from the final count during display
-            } else {
-                countMoveC += 2; // two moveC commands for each arcMidPoint
-                countMoveL -= 1;
-            }
-            if(i === indexArr[tmpIndex]) {
-                velocity = valueArr[tmpIndex].value
-                if(valueArr[tmpIndex].mode === 1) { //SpeedModeRapid
-                    fastMove = true;
-                }
-                else {
-                    fastMove = false;
-                }
-                tmpIndex += 1;
-            }
-            if(fastMove) {
-                countFastMove += 1;
-            }
-            if (i < (totalPose-1)) {
-                let dis = calcDistance( Qt.vector3d(cartesianPose.pX[i],cartesianPose.pY[i],cartesianPose.pZ[i]), Qt.vector3d(cartesianPose.pX[i+1],cartesianPose.pY[i+1],cartesianPose.pZ[i+1]));
-                pathLength += dis;
-                if(velocity > 0.0001) { // velocity should be more than threshold = 0.0001 mm/s
-                    estimatedTime += dis/velocity;
-                }
-                if((cartesianPose.type[i] === 0) && (cartesianPose.type[i+1] === 0)){
-                    if(dis > maxMoveL) maxMoveL = dis;
-                    if(dis < minMoveL) minMoveL= dis;
-                }
-                switch (true) {
-                case dis <= 1.0:
+                if (distance <= 1.0)
                     countVec[0] += 1;
-                    break;
-                case dis > 1.0 && dis <= 2.0:
+                else if (distance <= 2.0)
                     countVec[1] += 1;
-                    break;
-                case dis > 2.0 && dis <= 3.0:
+                else if (distance <= 3.0)
                     countVec[2] += 1;
-                    break;
-                case dis > 3.0 && dis <= 5.0:
+                else if (distance <= 5.0)
                     countVec[3] += 1;
-                    break;
-                case dis > 5.0 && dis <= 10.0:
+                else if (distance <= 10.0)
                     countVec[4] += 1;
-                    break;
-                case dis > 10.0 && dis <= 20.0:
+                else if (distance <= 20.0)
                     countVec[5] += 1;
-                    break;
-                case dis > 20.0:
+                else
                     countVec[6] += 1;
-                    break;
-                default:
+
+                if (type === IrbcamInterfacePublic.MotionTypeLinear && prevType == IrbcamInterfacePublic.MotionTypeLinear)
+                {
+                    minMoveL = Math.min(minMoveL, distance)
+                    maxMoveL = Math.max(maxMoveL, distance)
                 }
+            }
+
+            prevPos = pos
+            prevSpeed = speed
+            prevType = type
+
+            minPos = vMin(minPos, pos)
+            maxPos = vMax(maxPos, pos)
+
+            switch (type) {
+            case IrbcamInterfacePublic.MotionTypeLinear:
+                countMoveL += 1
+                break
+            case IrbcamInterfacePublic.MotionTypeArcMidpoint:
+                // two moveC commands for each arcMidPoint
+                countMoveC += 2
+                countMoveL -= 1
+                break
+            case IrbcamInterfacePublic.MotionTypeRotaryLiftPoint:
+            case IrbcamInterfacePublic.MotionTypeLinearLiftPoint:
+            case IrbcamInterfacePublic.MotionTypeRotaryLiftPoint2:
+            case IrbcamInterfacePublic.MotionTypeRotaryLiftPoint3:
+                break
+            }
+
+            switch (speedMode) {
+            case IrbcamInterfacePublic.SpeedModeInput:
+                ++countInputMove
+                break
+            case IrbcamInterfacePublic.SpeedModeRapid:
+                ++countRapidMove
+                break
+            case IrbcamInterfacePublic.SpeedModeCutting:
+                ++countCuttingMove
+                break
             }
         }
-        root.countMoveL = countMoveL;
-        root.countMoveC = countMoveC;
-        root.pathLength = pathLength;
-        root.estimatedTime = estimatedTime;
-        root.countVec = countVec;
-        root.minMoveL = isFinite(minMoveL) ? minMoveL : 0.0;
-        root.maxMoveL = isFinite(maxMoveL) ? maxMoveL : 0.0;
-        root.countFastMove = countFastMove;
 
-        root.minX = isFinite(Math.min.apply(null, cartesianPose.pX)) ? Math.min.apply(null, cartesianPose.pX) : 0;
-        root.maxX = isFinite(Math.max.apply(null, cartesianPose.pX)) ? Math.max.apply(null, cartesianPose.pX) : 0;
-        root.minY = isFinite(Math.min.apply(null, cartesianPose.pY)) ? Math.min.apply(null, cartesianPose.pY) : 0;
-        root.maxY = isFinite(Math.max.apply(null, cartesianPose.pY)) ? Math.max.apply(null, cartesianPose.pY) : 0;
-        root.minZ = isFinite(Math.min.apply(null, cartesianPose.pZ)) ? Math.min.apply(null, cartesianPose.pZ) : 0;
-        root.maxZ = isFinite(Math.max.apply(null, cartesianPose.pZ)) ? Math.max.apply(null, cartesianPose.pZ) : 0;
+        root.countMoveL = countMoveL
+        root.countMoveC = countMoveC
+        root.pathLength = pathLength
+        root.countInputMove = countInputMove
+        root.countCuttingMove = countCuttingMove
+        root.countRapidMove = countRapidMove
+        root.estimatedTime = estimatedTime
+        root.countVec = countVec
+        root.countTargets = targetCount
+        root.minMoveL = isFinite(minMoveL) ? minMoveL : 0
+        root.maxMoveL = isFinite(maxMoveL) ? maxMoveL : 0
+        root.minPos = vClean(minPos)
+        root.maxPos = vClean(maxPos)
+
+        root.dataOutdated = false
     }
 
-    // calculate distance between two 3D vectors
-    function calcDistance(start, end) {
-        var dist = Math.sqrt((end.x - start.x) ** 2 + (end.y - start.y) ** 2 + (end.z - start.z) ** 2);
-        return dist;
-    }    
+    // Element-wise minimum check for 3d vectors
+    function vMin(v1, v2) {
+        return Qt.vector3d(Math.min(v1.x, v2.x), Math.min(v1.y, v2.y), Math.min(v1.z, v2.z))
+    }
+
+    // Element-wise maximum check for 3d vectors
+    function vMax(v1, v2) {
+        return Qt.vector3d(Math.max(v1.x, v2.x), Math.max(v1.y, v2.y), Math.max(v1.z, v2.z))
+    }
+
+    // Clean vector of non-finite values
+    function vClean(v) {
+        return Qt.vector3d(isFinite(v.x) ? v.x : 0.0, isFinite(v.y) ? v.y : 0.0, isFinite(v.z) ? v.z : 0.0)
+    }
 }
 
 
