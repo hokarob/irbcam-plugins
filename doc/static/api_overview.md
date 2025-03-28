@@ -1,6 +1,6 @@
 # API Overview
 
-Welcome to the API overview for IRBCAM's exposed functionality. This document will provide you with an understanding of how to interface with `IRBCAM`'s API.
+Welcome to the API overview for IRBCAM's exposed functionality! This document will provide you with an understanding of how to interface with the IRBCAM API.
 
 ## The C++ Exposed API
 
@@ -24,8 +24,3 @@ When working with the exposed C++ API in a QML environment, Qt provides type con
 
 For a more in-depth understanding of how Qt handles data type conversion in the context of C++ and QML integration, we recommend reading the article on [Qt's Data Type Conversion](https://doc.qt.io/qt-6/qtqml-cppintegration-data.html).
 
-## Conclusion
-
-The exposed API of IRBCAM offers a set of features written in C++. By importing the `IRBCAM.InterfacePublic` module in your QML projects, you can access and utilize this API. The type conversion provided by Qt ensures that working with C++ types in QML is a straightforward experience.
-
-Get started with the API and explore the endless possibilities of customizing and extending IRBCAM to suit your unique needs.

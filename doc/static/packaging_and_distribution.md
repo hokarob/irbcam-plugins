@@ -12,9 +12,9 @@ IRBCAM loads plugins as an individual file. If your plugin is a single QML file,
 Your archive should include:
 - A single QML file
 - A single SVG/PNG icon (optional)
-- Other resources (not QML or SVG/PNG)
+- Other resources (optional, not QML or SVG/PNG)
 
-@note You may add more than one QML or SVG/PNG file. These must be put in a subdirectory.
+@note You may add more than one QML or SVG/PNG file, however these must be put in a subdirectory.
 
 ```bash
 plugin.zip/
@@ -30,9 +30,11 @@ plugin.zip/
 
 Local distribution is suitable for testing and sharing plugins within a controlled environment. To distribute your plugin locally, you can follow these steps:
 
-1. **Prepare the Archive**: Ensure your plugin files are organized as described in the previous section.
+1. **Prepare the Archive**: Ensure your plugin files are organized as described in the previous section. Save the file on your computer.
 
-2. **Enable the Plugin**: In the IRBCAM application, navigate to "Plugin Settings" and add your locally distributed plugin.
+2. **Enable the Plugin**: In IRBCAM, navigate to **File > Settings > Plugins** and add your plugin.
+
+@note When adding plugins to IRBCAM from your local device, the plugin will not be stored between sessions. You will have to add the plugin every time you start IRBCAM.
 
 ### Web Distribution
 
@@ -44,33 +46,8 @@ For wider distribution, consider hosting your plugin online. This approach allow
 
 3. **Share the URL**: Share the URL to your plugin with the community or potential users.
 
-### Public vs. Private Plugins
-
-Consider whether your plugin should be public or private:
-
-- **Public Plugins**: If your plugin is intended for a wider audience and you want to make it available to the IRBCAM community, opt for public distribution. Hosting on GitHub or a dedicated platform can facilitate this.
-
-- **Private Plugins**: For plugins intended for a specific project or a limited audience, you can choose to keep the distribution private. Share the plugin directly with intended users or within your organization.
-
-## Installation
-
-Users of IRBCAM can easily install plugins from local or web sources. They can follow these general steps to install a plugin:
-
-1. **Open IRBCAM**: Launch the IRBCAM application on your computer.
-
-2. **Access Plugin Settings**: Navigate to the "Plugins" menu and select "Add".
-
-3. **Install a Plugin**:
-   - For locally distributed plugins, click the `...` button to browse the computer.
-   - For web-hosted plugins, enter the URL of the plugin.
-
-4. **Open the Plugin**: Once the plugin is installed, open it from the "Plugins" menu.
-
-Your plugin is now ready for use within IRBCAM.
-
-
 ## Conclusion
 
 Packaging and distributing your QML plugins for IRBCAM can bring your custom functionalities to a broader user base. Whether you choose local or web distribution, clear documentation and effective sharing strategies can make your plugin easily accessible to others. By following the recommended file structure and guidelines, you can ensure that your plugins are ready for seamless integration and use in IRBCAM.
 
-Happy coding and sharing your IRBCAM QML plugins!
+Happy coding and sharing your IRBCAM plugins!

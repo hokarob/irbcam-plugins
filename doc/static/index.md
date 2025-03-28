@@ -15,7 +15,6 @@ Welcome to the documentation for the IRBCAM Plugin API. This guide is designed t
 If you're new to plugin development for IRBCAM, start with the basics. This section will guide you through some basic examples and setting up your development environment.
 
 - [Quick Start Guide](getting_started.md)
-- [Development Environment Setup](environment_setup.md)
 
 ## Plugin Structure
 

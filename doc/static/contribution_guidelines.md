@@ -38,6 +38,6 @@ All contributions will be reviewed by project maintainers. We may provide feedba
 
 ## License
 
-By contributing to this project, you agree that your contributions will be licensed under the same license as the project itself. For more details, please see our [LICENSE](LICENSE.md) file.
+By contributing to this project, you agree that your contributions will be licensed under the same license as the project itself. For more details, please see our [LICENSE](https://github.com/hokarob/irbcam-plugins/blob/main/LICENSE.md) file.
 
 We appreciate your interest and your willingness to contribute to the official IRBCAM plugins.
