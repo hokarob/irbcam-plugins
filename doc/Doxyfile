@@ -1,6 +1,6 @@
 @INCLUDE = "./Default_Doxyfile"
 GENERATE_HTML = YES
-# GENERATE_XML = YES
+GENERATE_XML = NO
 XML_PROGRAMLISTING = NO
 
 # Project Stuff
@@ -14,7 +14,7 @@ FILE_PATTERNS		   = *.h *.md
 RECURSIVE              = YES
 
 # Visuals
-ENUM_VALUES_PER_LINE = 1
+ENUM_VALUES_PER_LINE = 0
 
 # Theme
 GENERATE_TREEVIEW = YES
@@ -27,21 +27,34 @@ HTML_EXTRA_STYLESHEET  = 	theme/doxygen-awesome.css \
 MARKDOWN_SUPPORT = YES
 USE_MDFILE_AS_MAINPAGE = index.md
 
-# # From https://stackoverflow.com/a/38322858
-# EXTRACT_ALL          = YES
+# From https://stackoverflow.com/a/38322858
+
 CLASS_DIAGRAMS      = NO
-# HIDE_UNDOC_RELATIONS = NO
-# HAVE_DOT             = YES
-# DOT_IMAGE_FORMAT = svg
-# INTERACTIVE_SVG = YES
+
 CLASS_GRAPH          = NO
 COLLABORATION_GRAPH  = NO
-# UML_LOOK             = YES
-# UML_LIMIT_NUM_FIELDS = 50
-# TEMPLATE_RELATIONS   = YES
-# DOT_GRAPH_MAX_NODES  = 100
-# MAX_DOT_GRAPH_DEPTH  = 0
-# DOT_TRANSPARENT      = YES
 
-# # Dont show local file paths
+
+# Dont show local file paths
 # FULL_PATH_NAMES = NO
+
+# Only Show Relevant Elements
+EXTRACT_ALL           = NO
+EXTRACT_PRIVATE       = NO
+EXTRACT_STATIC        = NO
+EXTRACT_LOCALMETHODS  = NO
+EXTRACT_LOCAL_CLASSES = NO
+EXTRACT_PACKAGE       = NO
+
+# Enable QML-related elements
+
+MACRO_EXPANSION       = YES
+
+
+# Hide internal or irrelevant sections
+HIDE_UNDOC_CLASSES    = YES
+HIDE_UNDOC_MEMBERS    = YES
+HIDE_SCOPE_NAMES      = NO
+HIDE_COMPOUND_REFERENCE = YES
+SHOW_FILES            = NO
+SHOW_NAMESPACES       = NO
