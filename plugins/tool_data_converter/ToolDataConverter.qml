@@ -22,12 +22,9 @@
 */
 
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick3D
 
-// Import HOKAROB theme
-import HokarobQml.Theme
 // Import HOKAROB Controls library
 import HokarobQml.Controls
 

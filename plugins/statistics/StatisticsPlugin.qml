@@ -6,8 +6,6 @@ import QtQuick
 import QtCharts
 import QtQuick.Layouts
 
-// Import HOKAROB theme
-import HokarobQml.Theme
 // Import HOKAROB Controls library
 import HokarobQml.Controls
 

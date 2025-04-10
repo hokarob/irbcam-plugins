@@ -3,12 +3,11 @@
 */
 
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick3D
 
 // Import HOKAROB theme
-import HokarobQml.Theme
+import HokarobQml.backend
 // Import HOKAROB Controls library
 import HokarobQml.Controls
 // Import IRBCAM public interface
