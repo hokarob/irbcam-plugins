@@ -360,6 +360,8 @@ public:
         MotionTypeRotaryLiftPoint3 = int(EMotionType::MotionTypeRotaryLiftPoint3),
         /// Rotary table lift point. Exported as a linear move
         MotionTypeRotaryLiftPoint4 = int(EMotionType::MotionTypeRotaryLiftPoint4),
+        /// Joint move
+        MotionTypeJoint = int(EMotionType::MotionTypeJoint),
     };
     Q_ENUM(MotionType)
 
