@@ -1,11 +1,14 @@
 #ifndef IRBCAMINTERFACEPUBLIC_H
 #define IRBCAMINTERFACEPUBLIC_H
 
-#include <QObject>
-#include "irbcaminterface.h"
+#include <qguiapplication.h>
+#include <qqmlapplicationengine.h>
+
 #include <QMatrix4x4>
+#include <QObject>
 
 #include "targetproxymodel.h"
+#include "hokaqmlutils.hpp"
 
 /**
  * @class IrbcamInterfacePublic
@@ -22,7 +25,7 @@
  * import IRBCAM.InterfacePublic
  * ```
  */
-class IrbcamInterfacePublic : public QObject
+class IrbcamInterfacePublic : public HokaSingleton<IrbcamInterfacePublic, QObject, QJSEngine::CppOwnership>
 {
     Q_OBJECT
 
@@ -109,9 +112,15 @@ class IrbcamInterfacePublic : public QObject
      */
     Q_PROPERTY(QRect mainWindow READ getMainWindow NOTIFY mainWindowChanged)
 
+    IrbcamInterfacePublic();
+    friend HokaSingleton;
+
 public:
-    explicit IrbcamInterfacePublic(QObject *parent = nullptr);
-    virtual ~IrbcamInterfacePublic();
+    ~IrbcamInterfacePublic();
+
+    static void RegisterContext();
+
+    void init(QGuiApplication *app);
 
 
     /**
