@@ -159,12 +159,12 @@ public:
     Q_ENUM(RotationSequence)
 
     /**
-     * @brief Converts Euler angles to a Quaternion using the specified rotation sequence.
+     * @brief Converts Tait-Bryan/Euler angles to a Quaternion using the specified rotation sequence.
      * @param rx The rotation angle around the x axis in radians.
      * @param ry The rotation angle around the y axis in radians.
      * @param rz The rotation angle around the z axis in radians.
      * @param seq The rotation sequence to be used for conversion.
-     * @return The resulting Quaternion representing the given Euler angles.
+     * @return The resulting Quaternion representing the given Tait-Bryan/Euler angles.
      *
      * Example usage in QML:
      * @code{qml}
@@ -179,10 +179,10 @@ public:
     */
     Q_INVOKABLE QQuaternion eulerToQuaternion(double rx, double ry, double rz, RotationSequence seq);
     /**
-     * @brief Converts a Quaternion to Euler angles using the specified rotation sequence.
-     * @param quat The input Quaternion to be converted to Euler angles.
+     * @brief Converts a Quaternion to Tait-Bryan/Euler angles using the specified rotation sequence.
+     * @param quat The input Quaternion to be converted to Tait-Bryan/Euler angles.
      * @param seq The rotation sequence to be used for conversion.
-     * @return The resulting Euler angles in radians.
+     * @return The resulting Tait-Bryan/Euler angles in radians.
      *
      * Example usage in QML:
      * @code{qml}
