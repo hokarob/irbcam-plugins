@@ -25,7 +25,7 @@
  * import IRBCAM.InterfacePublic
  * ```
  */
-class IrbcamInterfacePublic : public HokaSingleton<IrbcamInterfacePublic, QObject, QJSEngine::CppOwnership>
+class IrbcamInterfacePublic : public QObject, public HokaSingleton<IrbcamInterfacePublic>
 {
     Q_OBJECT
 
